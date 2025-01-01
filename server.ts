@@ -8,10 +8,10 @@ process
   );
 import express, { Request, Response } from "express";
 import { createServer } from "http";
-import { init } from "./server/app/socket/socketServer";
+import { init } from "./server/middleware/socket/socketServer";
 import { DisconnectReason } from "socket.io";
 import { catchErrorPromise } from "./src/utils/catchError";
-import { generalListeners } from "./server/app/socket/listen";
+import { generalListeners } from "./server/middleware/socket/listen";
 import stateRoutes from "./server/routes";
 import next from "next";
 

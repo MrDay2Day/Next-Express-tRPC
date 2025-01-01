@@ -1,15 +1,14 @@
 "use client";
 import { useState } from "react";
 
-// function getRandom(count: number) {
-//   return Math.floor(Math.random() * count);
-// }
-
 export default function Docs() {
   const [link1, setLink1] = useState("");
   const [link2, setLink2] = useState("");
 
   // Intentionally throwing error to load error layout
+  // function getRandom(count: number) {
+  //   return Math.floor(Math.random() * count);
+  // }
   // const random = getRandom(8);
   // if (random == 1) {
   //   throw new Error("Intentional Error Thrown!");
@@ -42,7 +41,9 @@ export default function Docs() {
 
         <a
           aria-disabled={!!link1}
-          href={`/docs${link1 ? `/${link1}${link2 ? `/${link2}` : ""}` : ""}`}
+          href={`/docs${
+            link1 ? `/${link1}${link2 ? `/${link2}` : ""}` : ""
+          }?string=Dwight Thorpe&boolean=true&number=23`}
         >
           Go to
         </a>

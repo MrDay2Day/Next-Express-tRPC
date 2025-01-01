@@ -4,6 +4,7 @@ import withPWA from "next-pwa";
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  productionBrowserSourceMaps: false,
   compiler: {
     removeConsole: process.env.NODE_ENV !== "development",
   },

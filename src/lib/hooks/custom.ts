@@ -1,4 +1,3 @@
-import { trpc } from "@/utils/trpc";
 import React, { useState, useEffect, useRef } from "react";
 
 export const useWindowSize = () => {
@@ -98,9 +97,4 @@ export const useMousePosition = () => {
   }, []);
 
   return position;
-};
-
-export const useTRPCHook = () => {
-  const [trpcFunc] = useState(trpc);
-  return trpcFunc;
 };
