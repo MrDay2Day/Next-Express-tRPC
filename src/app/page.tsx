@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { LoadingComp } from "./loading";
 import { nextDynamic } from "@/utils/dynamic";
 import { trpcServer } from "@/utils/trpcServerSide";
+import CookieDemo from "@/components/demo/cookie";
 
 // import Notes from "@/components/hooks-comps/notes";
 // import ListenTest from "@/components/socket-comps/listen_test";
@@ -20,7 +21,7 @@ const Notes = nextDynamic(() => import("../components/hooks-comps/notes"), {
 
 async function getNames() {
   try {
-    const names = await trpcServer.getUsers.query();
+    const names = await trpcServer.getUsers.query(); // Does a fetch to local server
     return names;
   } catch (error) {
     console.log({ error });
@@ -44,6 +45,7 @@ export default async function Home() {
         <ListenTest />
       </Suspense>
       <Notes />
+      <CookieDemo />
     </div>
   );
 }

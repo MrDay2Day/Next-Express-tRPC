@@ -53,7 +53,15 @@ endPoints.use(
   "/trpc",
   trpcExpress.createExpressMiddleware({
     router: appRouter,
-    createContext: () => ({}),
+    createContext({
+      req,
+      res,
+    }: {
+      req: express.Request;
+      res: express.Response;
+    }) {
+      return { req, res };
+    },
   })
 );
 

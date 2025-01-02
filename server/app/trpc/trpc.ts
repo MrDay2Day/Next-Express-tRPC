@@ -3,13 +3,19 @@
  */
 import { initTRPC, TRPCError } from "@trpc/server";
 import { z } from "zod";
+import * as trpcExpress from "@trpc/server/adapters/express";
+
+export const createContext = ({
+  req,
+  res,
+}: trpcExpress.CreateExpressContextOptions) => {
+  return { req, res };
+};
+
+export type Context = Awaited<ReturnType<typeof createContext>>;
 
 // Initialize tRPC
-const t = initTRPC.create({
-  //   errorFormatter({ shape }) {
-  //     return { code: shape.code, message: shape.message };
-  //   },
-});
+const t = initTRPC.context<Context>().create();
 
 // Create middleware for logging
 const loggerMiddleware = t.middleware(async ({ path, type, next }) => {
@@ -87,6 +93,36 @@ export const appRouter = router({
           });
         }
       }),
+  }),
+  // Cookie Management
+  cookies: router({
+    // Set cookies
+    setCookie: publicProcedure.query(({ ctx }) => {
+      // Signed cookies - Very secure
+      ctx.res.cookie("sign_demo_cookie", "signed_cookie_string_here", {
+        httpOnly: false,
+        secure: false,
+        sameSite: true,
+        signed: true,
+      });
+      // Regular Cookie - Somewhat secure
+      ctx.res.cookie("demo_cookie", "cookie_string_here", {
+        httpOnly: false,
+        secure: false,
+        sameSite: true,
+        signed: false,
+      });
+      console.log(ctx.req.cookies, ctx.req.signedCookies);
+      return { success: true };
+    }),
+    // Get Cookies
+    getCookie: t.procedure.query(({ ctx }) => {
+      console.log(ctx.req.cookies, ctx.req.signedCookies);
+      return {
+        regular: ctx.req.cookies,
+        signed: ctx.req.signedCookies,
+      };
+    }),
   }),
 });
 

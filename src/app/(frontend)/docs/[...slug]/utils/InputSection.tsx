@@ -25,7 +25,7 @@ export default function InputSection() {
 
   return (
     <div>
-      <h1>Server-Only Page</h1>
+      <h1>Client Side Component</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="inputField">Enter something:</label>
         <input
