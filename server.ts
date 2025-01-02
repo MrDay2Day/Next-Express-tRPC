@@ -16,7 +16,6 @@ import stateRoutes from "./server/routes";
 import next from "next";
 
 import dotenv from "dotenv";
-import modules from "./server/middleware/modules";
 dotenv.config();
 
 const dev = process.env.NODE_ENV !== "production";
@@ -44,8 +43,6 @@ async function start() {
       });
       generalListeners(socket, socket.request);
     });
-
-    expressApp.use(modules);
 
     expressApp.use("/server", stateRoutes);
     // Handle Next.js routing

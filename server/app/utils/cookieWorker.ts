@@ -3,8 +3,9 @@ import { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import { SignJWT } from "jose";
 // import { setSignedCookie } from "../../src/utils/cookies";
-import { parse } from "cookie";
+// import { parse } from "cookie";
 import { jwtVerify } from "jose";
+import { catchErrorPromise } from "../../../src/utils/catchError";
 dotenv.config();
 
 const JWT_SECRET = new TextEncoder().encode(
@@ -66,13 +67,16 @@ export default class CookieWorker {
         const cookieData = signedCookies[cookie];
 
         if (cookieData) {
-          const verified = await jwtVerify(cookieData, JWT_SECRET);
-          console.log({ verified });
+          const [err, verified] = await catchErrorPromise(
+            jwtVerify(cookieData, JWT_SECRET)
+          );
+          console.log({ err, verified });
         }
       }
       return next();
     } catch (error) {
-      throw error;
+      console.log(error);
+      res.status(401).json({ valid: false });
     }
   }
 }
