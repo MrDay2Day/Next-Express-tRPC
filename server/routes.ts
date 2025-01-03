@@ -1,32 +1,18 @@
 import express, { Request, Response } from "express";
-import compression from "compression";
-import morgan from "morgan";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-
-import * as trpcExpress from "@trpc/server/adapters/express";
 
 import ServerSideEvent from "./app/events/eventRoute";
 import CookieWorker from "./app/utils/cookieWorker";
 
 import dotenv from "dotenv";
-import { appRouter } from "./app/trpc/trpc";
+import { serverMainContext } from "./app/trpc/context/context";
+import modules from "./middleware/modules";
 dotenv.config();
 
 const endPoints = express.Router();
 const stateRoutes = express.Router();
 
-stateRoutes.use(
-  cors({
-    origin: true,
-    credentials: true,
-  }),
-  express.urlencoded({ extended: true }),
-  express.json(),
-  compression(),
-  cookieParser(process.env.COOKIE_SECRET),
-  morgan("combined")
-);
+stateRoutes.use(modules);
+
 endPoints.get(
   "/listen",
   CookieWorker.validCookie,
@@ -34,6 +20,7 @@ endPoints.get(
     return ServerSideEvent.listen(req, res);
   }
 );
+
 endPoints.get(
   "/trigger",
   CookieWorker.validCookie,
@@ -49,22 +36,9 @@ endPoints.get("/set-cookie", async (req: Request, res: Response) => {
   });
 });
 
-endPoints.use(
-  "/trpc",
-  trpcExpress.createExpressMiddleware({
-    router: appRouter,
-    createContext({
-      req,
-      res,
-    }: {
-      req: express.Request;
-      res: express.Response;
-    }) {
-      return { req, res };
-    },
-  })
-);
+endPoints.use("/trpc", serverMainContext);
 
 stateRoutes.use(endPoints);
 
-export default stateRoutes;
+const routes = { stateRoutes };
+export default routes;

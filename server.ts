@@ -9,13 +9,12 @@ process
 import express, { Request, Response } from "express";
 import { createServer } from "http";
 import { init } from "./server/middleware/socket/socketServer";
-import { DisconnectReason } from "socket.io";
 import { catchErrorPromise } from "./src/utils/catchError";
 import { generalListeners } from "./server/middleware/socket/listen";
-import stateRoutes from "./server/routes";
 import next from "next";
 
 import dotenv from "dotenv";
+import routes from "./server/routes";
 dotenv.config();
 
 const dev = process.env.NODE_ENV !== "production";
@@ -37,14 +36,10 @@ async function start() {
 
     // Socket.IO event handlers with type safety
     ExpressSocketServer?.on("connection", (socket) => {
-      console.log("Client connected:", socket.id);
-      socket.on("disconnect", (reason: DisconnectReason) => {
-        console.log(`Client ${socket.id} disconnected. Reason: ${reason}`);
-      });
       generalListeners(socket, socket.request);
     });
 
-    expressApp.use("/server", stateRoutes);
+    expressApp.use("/server", routes.stateRoutes);
     // Handle Next.js routing
     expressApp.all("*", (req: Request, res: Response) => {
       return handle(req, res);

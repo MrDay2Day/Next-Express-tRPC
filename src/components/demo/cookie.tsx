@@ -6,8 +6,8 @@ export default function CookieDemo() {
   useEffect(() => {
     const fetchCookies = async () => {
       try {
-        const set = await trpcClient.cookies.setCookie.query();
-        const get = await trpcClient.cookies.getCookie.query();
+        const set = await trpcClient.CookieManagement.setCookie.query();
+        const get = await trpcClient.CookieManagement.getCookie.query();
         console.log({ set, get });
       } catch (error) {
         console.error("Error fetching cookies:", error);

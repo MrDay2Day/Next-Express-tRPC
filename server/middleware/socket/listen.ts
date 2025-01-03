@@ -1,4 +1,4 @@
-import { Socket } from "socket.io";
+import { DisconnectReason, Socket } from "socket.io";
 import http from "http";
 
 import { getIO } from "./socketServer";
@@ -17,6 +17,11 @@ export async function generalListeners(
     socket.onAny(async (event) => {
       console.log({ auth, headers });
       console.log({ event }, socket.data);
+    });
+
+    console.log("Client connected:", socket.id);
+    socket.on("disconnect", (reason: DisconnectReason) => {
+      console.log(`Client ${socket.id} disconnected. Reason: ${reason}`);
     });
 
     /**Examples of general socket listeners */

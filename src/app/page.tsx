@@ -21,7 +21,7 @@ const Notes = nextDynamic(() => import("../components/hooks-comps/notes"), {
 
 async function getNames() {
   try {
-    const names = await trpcServer.getUsers.query(); // Does a fetch to local server
+    const names = await trpcServer.UserManagement.getUsers.query(); // Does a fetch to local server
     return names;
   } catch (error) {
     console.log({ error });
