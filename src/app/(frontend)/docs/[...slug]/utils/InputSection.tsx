@@ -12,7 +12,7 @@ export default function InputSection() {
 
     try {
       // some data query/fetch
-      const response = await trpcClient.userManagement.createUser.mutate({
+      const response = await trpcClient.UserManagement.createUser.mutate({
         name: "Dwight",
         email: "dwight@email.co",
       });
