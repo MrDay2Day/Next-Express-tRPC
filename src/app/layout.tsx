@@ -7,6 +7,11 @@ import "./globals.css";
 import StoreProvider from "@/lib/store/StoreProvider";
 import NavBar from "@/components/navigation/nav_bar";
 import { SocketProvider } from "@/lib/socket/SocketProvider";
+// import PushRegister from "./utils/PushRegister";
+import { lazy, Suspense } from "react";
+
+// @ts-expect-error: Import lazy
+const PushComp = lazy(() => import("./utils/PushRegister"));
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -51,6 +56,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased pb-0`}
       >
+        <Suspense>
+          <PushComp />
+        </Suspense>
         <StoreProvider>
           <SocketProvider>
             <NavBar />

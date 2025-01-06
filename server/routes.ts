@@ -6,6 +6,7 @@ import CookieWorker from "./app/utils/cookieWorker";
 import dotenv from "dotenv";
 import { serverMainContext } from "./app/trpc/context/context";
 import modules from "./middleware/modules";
+import pushRouter from "./app/push/notifications";
 dotenv.config();
 
 const endPoints = express.Router();
@@ -36,6 +37,7 @@ endPoints.get("/set-cookie", async (req: Request, res: Response) => {
   });
 });
 
+endPoints.use("/notifications", pushRouter);
 endPoints.use("/trpc", serverMainContext);
 
 stateRoutes.use(endPoints);

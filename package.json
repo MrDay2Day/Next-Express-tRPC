@@ -54,6 +54,7 @@
     "tailwindcss-animate": "^1.0.7",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
+    "web-push": "^3.6.7",
     "ws": "^8.18.0",
     "zod": "^3.24.1"
   },
@@ -69,6 +70,7 @@
     "@types/react-dom": "^18",
     "@types/socket.io": "^3.0.2",
     "@types/socket.io-client": "^3.0.0",
+    "@types/web-push": "^3.6.4",
     "cross-env": "^7.0.3",
     "eslint": "^8",
     "eslint-config-next": "15.0.1",
