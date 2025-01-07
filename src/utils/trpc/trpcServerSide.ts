@@ -1,5 +1,5 @@
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
-import { AppRouter } from "../../server/app/trpc/trpc";
+import { AppRouter } from "../../../server/app/trpc/trpc";
 
 const PORT = process.env.PORT;
 console.log({ PORT });

@@ -23,7 +23,7 @@ export default function ClientPage() {
     try {
       // Need to call through an API route since we can't directly use server-only code
       const [resErr, response] = await catchErrorPromise(
-        fetch("/apis/get-data", {
+        fetch("/api/get-data", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer 1234567890`,

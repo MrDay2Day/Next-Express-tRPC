@@ -1,17 +1,22 @@
-import { lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { LoadingComp } from "./loading";
 import { nextDynamic } from "@/utils/dynamic";
-import { trpcServer } from "@/utils/trpcServerSide";
+import { trpcServer } from "@/utils/trpc/trpcServerSide";
 import CookieDemo from "@/components/demo/cookie";
 
-// import Notes from "@/components/hooks-comps/notes";
-// import ListenTest from "@/components/socket-comps/listen_test";
+const TodoList = nextDynamic(
+  // @ts-expect-error: None
+  () => import("@/components/ToDoList"),
+  {
+    loading: () => <LoadingComp />, // Optional custom fallback
+    ssr: true, // Optional: Disable server-side rendering for this component
+  }
+);
 
 const ListenTest = lazy(
   // @ts-expect-error: None
   () => import("@/components/socket-comps/listen_test")
 );
-// const Notes = lazy(() => import("@/components/hooks-comps/notes"));
 
 // @ts-expect-error: None
 const Notes = nextDynamic(() => import("../components/hooks-comps/notes"), {
@@ -28,8 +33,9 @@ async function getNames() {
     return null;
   }
 }
-export const dynamic = "force-dynamic"; // To ensure this page is rerendered on every request
+
 export default async function Home() {
+  const todolist = await trpcServer.UserManagement.getUsers.query();
   const names = await getNames();
   return (
     <div className="flex-auto justify-center">
@@ -41,6 +47,18 @@ export default async function Home() {
             <li key={user.id}>{`${user.id} - ${user.name}`}</li>
           ))}
       </div>
+      <p>
+        {todolist.map((x, i) => {
+          return (
+            <React.Fragment key={i}>
+              <span>{`${x.id}: ${x.name} - ${x.age} - ${x.email}`}</span>
+              <br />
+            </React.Fragment>
+          );
+        })}
+      </p>
+      {/* <NextTRPCComp /> */}
+      <TodoList />
       <Suspense fallback={<LoadingComp />}>
         <ListenTest />
       </Suspense>
@@ -49,3 +67,5 @@ export default async function Home() {
     </div>
   );
 }
+
+export const dynamic = "force-dynamic"; // To ensure this page is rerendered on every request

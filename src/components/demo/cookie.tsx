@@ -1,5 +1,5 @@
 "use client";
-import { trpcClient } from "@/utils/trpcClientSide";
+import { trpcClient } from "@/utils/trpc/trpcClientSide";
 import { useEffect } from "react";
 
 export default function CookieDemo() {

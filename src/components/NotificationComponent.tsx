@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { trpcClient } from "@/utils/trpcClientSide";
+import { trpcClient } from "@/utils/trpc/trpcClientSide";
 import { useState, useEffect } from "react";
 
 const NotificationComponent = () => {
