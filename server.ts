@@ -7,6 +7,9 @@ process
     console.log(exception_err, "Uncaught Exception Error")
   );
 
+import dotenv from "dotenv";
+dotenv.config();
+
 import startNextExpressServer from "./server/index";
 
 startNextExpressServer();

@@ -3,7 +3,7 @@ import { createClient, RedisClientType } from "redis";
 
 const userRedis = process.env.USE_REDIS === "y";
 
-export class RedisClientClass {
+export default class RedisClientClass {
   private client: RedisClientType | null;
   private errMsg: Error = new Error("No Redis Connection");
 

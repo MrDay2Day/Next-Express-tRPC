@@ -3,8 +3,20 @@ import http from "http";
 
 import { getIO } from "./socketServer";
 import { catchError } from "../../../src/utils/catchError";
+import SocketLogger from "./logger";
 
 let count = 0;
+const [io_error, io] = catchError(getIO, []);
+
+const socketIOLogger = new SocketLogger();
+// Handle server-wide errors
+io?.engine.on("connection_error", (err: any) => {
+  socketIOLogger.error("SERVER_CONN", "Connection error", {
+    error: err.message,
+    req: err.req,
+    code: err.code,
+  });
+});
 
 export async function generalListeners(
   socket: Socket,
@@ -20,19 +32,36 @@ export async function generalListeners(
     });
 
     console.log("Client connected:", socket.id);
+    socketIOLogger.info(socket.id, "Client connected", { event: "connection" });
     socket.on("disconnect", (reason: DisconnectReason) => {
+      socketIOLogger.warn(socket.id, "Client Disconnected", {
+        event: "disconnected",
+        reason,
+      });
       console.log(`Client ${socket.id} disconnected. Reason: ${reason}`);
+    });
+
+    // Handle errors
+    socket.on("error", (error: Error) => {
+      socketIOLogger.error(socket.id, "Socket error", {
+        error: error.message,
+        stack: error.stack,
+        clientId: socket.id,
+      });
     });
 
     /**Examples of general socket listeners */
 
     socket.on("ping", async (data, callback) => {
       try {
-        const [io_error, io] = catchError(getIO, []);
-        if (io_error) {
-          if (callback) {
-            return callback({ valid: false, msg: "Connection Issue" });
-          }
+        socketIOLogger.info(socket.id, "Triggers a ping to server for demo", {
+          event: "ping",
+        });
+        if (io_error && !io) {
+          socketIOLogger.error(socket.id, " - I6729HGF", io_error);
+        }
+        if (callback) {
+          return callback({ valid: false, msg: "Connection Issue" });
         }
         /**This function should be used to validate socket connection that it is associated with a valid user. */
         await validate_socket(socket);
@@ -49,7 +78,14 @@ export async function generalListeners(
          * Also this message, if redis/keydb is enabled is distributed to all server instances that are connected to the Pub/Sub connection.
          */
         io?.to(data.to).emit("hello", data);
+        socketIOLogger.info(socket.id, "Emit to specific user", {
+          data,
+        });
         io?.emit("tick", { data: count, date: new Date() });
+        socketIOLogger.info(socket.id, "General Emit", {
+          data: { data: count, date: new Date() },
+          event: "tick",
+        });
         /**Callback used to send data back to the client if applicable. */
         if (callback) callback(response);
       } catch (err) {
@@ -59,9 +95,10 @@ export async function generalListeners(
 
     socket.on("clients", async (data, callback) => {
       try {
+        socketIOLogger.info(socket.id, "Trigger client endpoint", { data });
         console.log({ data });
-        const [io_error, io] = catchError(getIO, []);
         if (io_error && !io) {
+          socketIOLogger.error(socket.id, "io Error  FDH7E92J1", io_error);
           if (callback) {
             return callback({ valid: false, msg: "Connection Issue" });
           }
@@ -96,8 +133,11 @@ export async function joinSocketRoom(
   try {
     console.log({ socketRoom, socketId });
     /** Establishing SocketIO Server Access */
-    const [io_error, io] = catchError(getIO, []);
-    if (io_error) {
+    if (io_error && !io) {
+      socketIOLogger.error(socketId, "io Error - HE1G5389", {
+        ...io_error,
+        socketRoom,
+      });
       throw new Error("No Socket socket connection.");
     }
 
@@ -107,6 +147,12 @@ export async function joinSocketRoom(
     /** Adding socket id to the user's private socket room */
     if (socketRoom) {
       socket?.join(socketRoom);
+    } else {
+      socketIOLogger.error(
+        socketId,
+        "No socket for current socket connection",
+        { socketRoom }
+      );
     }
 
     /** Getting a list of the main socket room */
