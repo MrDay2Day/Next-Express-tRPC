@@ -1,6 +1,5 @@
 "use client";
-import { trpcClient } from "@/utils/trpc/trpcClientSide";
-// import { trpc } from "@/utils/trpc";
+import { trpcClientSide } from "@/utils/trpc/trpcClientSide";
 import { useState } from "react";
 
 export default function InputSection() {
@@ -12,7 +11,7 @@ export default function InputSection() {
 
     try {
       // some data query/fetch
-      const response = await trpcClient.UserManagement.createUser.mutate({
+      const response = await trpcClientSide.UserManagement.createUser.mutate({
         name: "Dwight",
         email: "dwight@email.co",
       });

@@ -2,8 +2,8 @@
 import React, { lazy, Suspense } from "react";
 import { LoadingComp } from "./loading";
 import { nextDynamic } from "@/utils/dynamic";
-import { trpcServer } from "@/utils/trpc/trpcServerSide";
 import CookieDemo from "@/components/demo/cookie";
+import { trpcServerSide } from "@/utils/trpc/trpcServerSide";
 
 const NextTRPCComp = nextDynamic(
   // @ts-expect-error: None
@@ -36,7 +36,7 @@ const Notes = nextDynamic(() => import("../components/hooks-comps/notes"), {
 
 async function getNames() {
   try {
-    const names = await trpcServer.UserManagement.getUsers.query(); // Does a fetch to local server
+    const names = await trpcServerSide.UserManagement.getUsers.query(); // Does a fetch to local server
     return names;
   } catch (error) {
     console.log({ error });
@@ -46,7 +46,7 @@ async function getNames() {
 
 export const dynamic = "force-dynamic"; // To ensure this page is rerendered on every request
 export default async function Home() {
-  const nameAgain = await trpcServer.UserManagement.getUsers.query();
+  const nameAgain = await trpcServerSide.UserManagement.getUsers.query();
   const names = await getNames();
   return (
     <div className="flex-auto justify-center">

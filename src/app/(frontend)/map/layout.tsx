@@ -17,8 +17,9 @@ export default function RootLayout({
         <p>Mapping Layout</p>
         <p>Option Buttons Etc can be placed here</p>
         <Image
-          // width={152}
-          src="icons/logo_sqr-152.png"
+          width={152}
+          height={152}
+          src="/icons/logo_sqr-152.png"
           alt="This is a example image"
         />
       </div>

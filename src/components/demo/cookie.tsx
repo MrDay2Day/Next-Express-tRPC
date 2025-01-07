@@ -1,25 +1,21 @@
-"use client";
-import { trpcClient } from "@/utils/trpc/trpcClientSide";
-import { useEffect } from "react";
+import { trpcServerSide } from "@/utils/trpc/trpcServerSide";
 
-export default function CookieDemo() {
-  useEffect(() => {
-    const fetchCookies = async () => {
-      try {
-        const set = await trpcClient.CookieManagement.setCookie.query();
-        const get = await trpcClient.CookieManagement.getCookie.query();
-        console.log({ set, get });
-      } catch (error) {
-        console.error("Error fetching cookies:", error);
-      }
-    };
-
-    fetchCookies(); // Call the async function
-  }, []); // Empty dependency array ensures this runs only once on mount
+const fetchCookies = async () => {
+  try {
+    const set = await trpcServerSide.CookieManagement.setCookie.query();
+    const get = await trpcServerSide.CookieManagement.getCookie.query();
+    return { set, get };
+  } catch (error) {
+    console.error("Error fetching cookies:", error);
+  }
+};
+export default async function CookieDemo() {
+  const cookies = await fetchCookies(); // Call the async function
+  console.log(cookies);
 
   return (
     <>
-      <p>Client Side Component</p>
+      <p>Server Side Component</p>
     </>
   ); // Return null or a JSX element
 }

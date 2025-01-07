@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { trpcClient } from "@/utils/trpc/trpcClientSide";
+import { trpcClientSide } from "@/utils/trpc/trpcClientSide";
 import { useState, useEffect } from "react";
 
 const NotificationComponent = () => {
@@ -66,7 +65,7 @@ const NotificationComponent = () => {
         },
       };
 
-      const response = await trpcClient.PushNotifications.subscribe.mutate(
+      const response = await trpcClientSide.PushNotifications.subscribe.mutate(
         mappedSubscription
       );
 
@@ -90,7 +89,7 @@ const NotificationComponent = () => {
         },
       };
 
-      const response = await trpcClient.PushNotifications.subscribe.mutate(
+      const response = await trpcClientSide.PushNotifications.subscribe.mutate(
         mappedSubscription
       );
 
@@ -102,7 +101,7 @@ const NotificationComponent = () => {
 
   const sendPushNotification = async () => {
     try {
-      const response = await trpcClient.PushNotifications.send.mutate({
+      const response = await trpcClientSide.PushNotifications.send.mutate({
         title: `Testing Push ${Date.now()}`,
         body: `This is the body at ${new Date().toISOString()}`,
       });

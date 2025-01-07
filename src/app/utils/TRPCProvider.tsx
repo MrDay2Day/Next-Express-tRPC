@@ -15,11 +15,7 @@ export default function TRPCProvider({
     trpcNextAPIClient.createClient({
       links: [
         httpBatchLink({
-          url: `${
-            process.env.NODE_ENV === "production"
-              ? process.env.SERVER_URL
-              : `https://xyzabc.day2dayja.com`
-          }/api/trpc`,
+          url: `/api/trpc`,
           fetch(url, options) {
             return fetch(url, {
               ...options,
