@@ -159,12 +159,14 @@ const NotificationComponent = () => {
         </button>
       )}
 
-      <button
-        onClick={sendPushNotification}
-        className="bg-amber-500 text-white px-4 py-2 rounded"
-      >
-        Send Push
-      </button>
+      {subscription && (
+        <button
+          onClick={sendPushNotification}
+          className="bg-amber-500 text-white px-4 py-2 rounded"
+        >
+          Send Push
+        </button>
+      )}
     </div>
   );
 };

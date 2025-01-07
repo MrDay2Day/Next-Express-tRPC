@@ -17,5 +17,9 @@ export default function CookieDemo() {
     fetchCookies(); // Call the async function
   }, []); // Empty dependency array ensures this runs only once on mount
 
-  return null; // Return null or a JSX element
+  return (
+    <>
+      <p>Client Side Component</p>
+    </>
+  ); // Return null or a JSX element
 }

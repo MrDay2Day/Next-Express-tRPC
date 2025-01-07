@@ -7,12 +7,18 @@ import "./globals.css";
 import StoreProvider from "@/lib/store/StoreProvider";
 import NavBar from "@/components/navigation/nav_bar";
 import { SocketProvider } from "@/lib/socket/SocketProvider";
-// import PushRegister from "./utils/PushRegister";
-import { lazy, Suspense } from "react";
-import TRPCProvider from "@/utils/trpc/TRPCProvider";
+import TRPCProvider from "@/app/utils/TRPCProvider";
+import { LoadingComp } from "./loading";
+import { nextDynamic } from "@/utils/dynamic";
 
-// @ts-expect-error: Import lazy
-const PushComp = lazy(() => import("./utils/PushRegister"));
+const PushComp = nextDynamic(
+  // @ts-expect-error: None
+  () => import("./utils/PushRegister"),
+  {
+    loading: () => <LoadingComp />, // Optional custom fallback
+    ssr: true, // Optional: Disable server-side rendering for this component
+  }
+);
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -58,9 +64,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased pb-0`}
       >
         <TRPCProvider>
-          <Suspense>
-            <PushComp />
-          </Suspense>
+          <PushComp />
           <StoreProvider>
             <SocketProvider>
               <NavBar />

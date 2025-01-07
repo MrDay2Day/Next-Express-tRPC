@@ -1,6 +1,9 @@
-import { trpcNextAPIClient } from "@/app/_trpc/client";
+"use client";
+import React from "react";
+import { trpcNextAPIClient } from "../app/_trpc/client";
+import { Button } from "./ui/button";
 
-export default async function NextTRPCComp() {
+export default function NextTRPCComp() {
   const hello = trpcNextAPIClient.hello.useQuery({ name: "Client" });
   const addNumbersMutation = trpcNextAPIClient.addNumbers.useMutation();
 
@@ -9,7 +12,8 @@ export default async function NextTRPCComp() {
   return (
     <div>
       <h1>{hello.data.greeting}</h1>
-      <button
+      <Button
+        className="bg-purple-500"
         onClick={() => {
           addNumbersMutation.mutate(
             {
@@ -17,15 +21,21 @@ export default async function NextTRPCComp() {
               num2: 10,
             },
             {
-              onSuccess: (result) => {
-                console.log("Sum:", result);
+              onSuccess: (data, variables) => {
+                console.log("onSuccess", { data, variables });
+              },
+              onError(error, variables, context) {
+                console.log("onError", { error, variables, context });
+              },
+              onSettled(data, error, variables, context) {
+                console.log("onSettled", { data, error, variables, context });
               },
             }
           );
         }}
       >
         Add Numbers
-      </button>
+      </Button>
     </div>
   );
 }

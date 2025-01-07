@@ -49,6 +49,7 @@ export async function generalListeners(
          * Also this message, if redis/keydb is enabled is distributed to all server instances that are connected to the Pub/Sub connection.
          */
         io?.to(data.to).emit("hello", data);
+        io?.emit("tick", { data: count, date: new Date() });
         /**Callback used to send data back to the client if applicable. */
         if (callback) callback(response);
       } catch (err) {

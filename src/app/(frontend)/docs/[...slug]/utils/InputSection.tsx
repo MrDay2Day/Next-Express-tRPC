@@ -1,5 +1,5 @@
 "use client";
-import { trpcClient } from "@/utils/trpcClientSide";
+import { trpcClient } from "@/utils/trpc/trpcClientSide";
 // import { trpc } from "@/utils/trpc";
 import { useState } from "react";
 

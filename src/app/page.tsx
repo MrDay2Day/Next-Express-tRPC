@@ -1,8 +1,18 @@
+// "use server";
 import React, { lazy, Suspense } from "react";
 import { LoadingComp } from "./loading";
 import { nextDynamic } from "@/utils/dynamic";
 import { trpcServer } from "@/utils/trpc/trpcServerSide";
 import CookieDemo from "@/components/demo/cookie";
+
+const NextTRPCComp = nextDynamic(
+  // @ts-expect-error: None
+  () => import("@/components/NextTRPCComp"),
+  {
+    loading: () => <LoadingComp />, // Optional custom fallback
+    ssr: true, // Optional: Disable server-side rendering for this component
+  }
+);
 
 const TodoList = nextDynamic(
   // @ts-expect-error: None
@@ -34,8 +44,9 @@ async function getNames() {
   }
 }
 
+export const dynamic = "force-dynamic"; // To ensure this page is rerendered on every request
 export default async function Home() {
-  const todolist = await trpcServer.UserManagement.getUsers.query();
+  const nameAgain = await trpcServer.UserManagement.getUsers.query();
   const names = await getNames();
   return (
     <div className="flex-auto justify-center">
@@ -48,7 +59,7 @@ export default async function Home() {
           ))}
       </div>
       <p>
-        {todolist.map((x, i) => {
+        {nameAgain.map((x, i) => {
           return (
             <React.Fragment key={i}>
               <span>{`${x.id}: ${x.name} - ${x.age} - ${x.email}`}</span>
@@ -64,8 +75,7 @@ export default async function Home() {
       </Suspense>
       <Notes />
       <CookieDemo />
+      <NextTRPCComp />
     </div>
   );
 }
-
-export const dynamic = "force-dynamic"; // To ensure this page is rerendered on every request
