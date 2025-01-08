@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DisconnectReason, Socket } from "socket.io";
 import http from "http";
 
