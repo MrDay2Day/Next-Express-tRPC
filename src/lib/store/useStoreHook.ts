@@ -1,37 +1,35 @@
 "use client";
-import { useAppDispatch, useAppSelector } from "./hooks";
-import { removeNote, selectNotes, addNote } from "./slices/notesSlice";
-import {
-  selectPreferences,
-  toggleCompactMenu,
-  toggleDarkMode,
-  toggleNotificationOn,
-} from "./slices/preferenceSlice";
+import * as UseHooks from "./hooks";
+import * as NoteSlice from "./slices/notesSlice";
+import * as PreferenceSlice from "./slices/preferenceSlice";
 
 export function useNotes() {
-  const notes = useAppSelector(selectNotes);
-  const dispatch = useAppDispatch();
+  const notes = UseHooks.useAppSelector(NoteSlice.selectNotes);
+  const dispatch = UseHooks.useAppDispatch();
 
   return {
     notesReducer: {
       notes,
       addNote: (data: { heading: string; content: string }) =>
-        dispatch(addNote(data)),
-      remoteNote: (id: string) => dispatch(removeNote(id)),
+        dispatch(NoteSlice.addNote(data)),
+      remoteNote: (id: string) => dispatch(NoteSlice.removeNote(id)),
     },
   };
 }
 
 export function usePreferences() {
-  const preferences = useAppSelector(selectPreferences);
-  const dispatch = useAppDispatch();
+  const preferences = UseHooks.useAppSelector(
+    PreferenceSlice.selectPreferences
+  );
+  const dispatch = UseHooks.useAppDispatch();
 
   return {
     preferenceReducer: {
       preferences,
-      toggleDarkMode: () => dispatch(toggleDarkMode()),
-      toggleCompactMenu: () => dispatch(toggleCompactMenu()),
-      toggleNotificationOn: () => dispatch(toggleNotificationOn()),
+      toggleDarkMode: () => dispatch(PreferenceSlice.toggleDarkMode()),
+      toggleCompactMenu: () => dispatch(PreferenceSlice.toggleCompactMenu()),
+      toggleNotificationOn: () =>
+        dispatch(PreferenceSlice.toggleNotificationOn()),
     },
   };
 }

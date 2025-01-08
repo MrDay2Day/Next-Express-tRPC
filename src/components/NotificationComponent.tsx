@@ -56,6 +56,8 @@ const NotificationComponent = () => {
 
       setSubscription(pushSubscription);
 
+      if (!pushSubscription) return;
+
       const mappedSubscription = {
         endpoint: pushSubscription.endpoint,
         expirationTime: pushSubscription.expirationTime,
