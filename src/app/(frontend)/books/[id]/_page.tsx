@@ -2,6 +2,8 @@
 
 import { booksDatabase } from "@/app/(server)/api/trpc/_trpc_functions/books/books";
 
+// This is a Server Component for the same route it can directly access the book database.
+
 export default async function BookPage({ params }: { params: { id: number } }) {
   const book = booksDatabase[+params.id];
   if (!book) {

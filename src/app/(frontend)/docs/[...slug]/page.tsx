@@ -2,7 +2,7 @@ import "server-only";
 
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import BackButton from "./utils/BackButton";
+import BackButton from "../../../../components/BackButton";
 import InputSection from "./utils/InputSection";
 
 // For static params

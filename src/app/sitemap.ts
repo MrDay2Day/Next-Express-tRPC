@@ -1,6 +1,6 @@
 "use server";
 
-import { BASE_URL } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants/variables";
 import type { MetadataRoute } from "next";
 
 const domain = BASE_URL;

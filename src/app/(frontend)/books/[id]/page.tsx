@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from "react";
 import { trpcNextAPIClient } from "@/app/_trpc/client";
 import { LoadingComp } from "@/app/loading";
+import BackButton from "@/components/BackButton";
 
 const WAIT_TIME = 3000;
 
@@ -39,21 +40,28 @@ export default function BookPageClient({
     initiate();
   }, []);
 
-  if (loading) {
-    return <LoadingComp />;
-  } else if (!book) {
-    return (
-      <div>
-        <h1>Book Not Found</h1>
-        <p>The book was not found!</p>
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <h1 className="font-bold font text-lg">{book?.title}</h1>
-        <p>{book?.description}</p>
-      </div>
-    );
-  }
+  return (
+    <>
+      <h1>
+        {"Client Component - Book Information | trpcNextAPIClient -> Component"}
+      </h1>
+      <p>Intentional delay for 3 seconds to simulate loading...</p>
+      <br />
+      {loading ? (
+        <LoadingComp />
+      ) : !book ? (
+        <div>
+          <h1>Book Not Found</h1>
+          <p>The book was not found!</p>
+        </div>
+      ) : (
+        <div>
+          <h1 className="font-bold font text-lg">{book?.title}</h1>
+          <p>{book?.description}</p>
+        </div>
+      )}
+      <br />
+      <BackButton />
+    </>
+  );
 }

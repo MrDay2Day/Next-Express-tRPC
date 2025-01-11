@@ -1,6 +1,6 @@
-import { publicProcedure_next, router_next } from "../../trpc.ts.js";
+import { publicProcedure_next, router_next } from "../../trpc";
 import { z } from "zod";
-import { BooksManagement } from "./books/books.js";
+import { BooksManagement } from "./books/books";
 
 export const appRouter_next = router_next({
   getTodos: publicProcedure_next.query(async () => {

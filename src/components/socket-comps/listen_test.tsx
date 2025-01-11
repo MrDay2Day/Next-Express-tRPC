@@ -18,5 +18,10 @@ export default function ListenTest() {
     };
   }, [socketTools]);
 
-  return <p>Socket Listen test - {value}</p>;
+  return (
+    <div className="pv-10 mb-5 border-2 border-lime-600">
+      <h1>{"Client Component - Socket Listen | useSocket Hook"}</h1>
+      <p>Socket Listen test - {value}</p>
+    </div>
+  );
 }

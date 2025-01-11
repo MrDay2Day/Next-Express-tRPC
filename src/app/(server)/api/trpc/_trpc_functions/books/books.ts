@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure_next, router_next } from "../../../trpc.ts";
+import { publicProcedure_next, router_next } from "../../../trpc";
 import { TRPCError } from "@trpc/server";
 
 type Book = {

@@ -10,7 +10,8 @@ export default function NextTRPCComp() {
   if (!hello.data) return <div>Loading...</div>;
 
   return (
-    <div>
+    <div className="pv-10 mb-5 border-2 border-sky-400">
+      <h1>{"Client Component - Next tRPC | trpcNextAPIClient -> Component"}</h1>
       <h1>{hello.data.greeting || "Umm..."}</h1>
       <Button
         className="bg-purple-500"

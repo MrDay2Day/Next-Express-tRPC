@@ -25,6 +25,9 @@ export default async function NavBar() {
       <Link href={"/docs"} style={style.linkStyle}>
         Docs
       </Link>
+      <Link href={"/books"} style={style.linkStyle}>
+        Books
+      </Link>
       <Link href={"/editor"} style={style.linkStyle}>
         Editor
       </Link>

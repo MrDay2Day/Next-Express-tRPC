@@ -57,7 +57,6 @@
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "web-push": "^3.6.7",
-    "ws": "^8.18.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {

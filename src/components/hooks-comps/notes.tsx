@@ -24,5 +24,12 @@ export default function Notes() {
       </div>
     ));
 
-  return <>{renderNotes}</>;
+  return (
+    <>
+      <div className="my-5 border-2 border-cyan-800">
+        <h1>{"Client Component - Notes | Reducer -> Component"}</h1>
+        {renderNotes}
+      </div>
+    </>
+  );
 }

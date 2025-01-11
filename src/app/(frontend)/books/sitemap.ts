@@ -1,7 +1,7 @@
 "use server";
 
 import { booksDatabase } from "@/app/(server)/api/trpc/_trpc_functions/books/books";
-import { BASE_URL } from "@/lib/constants";
+import { BASE_URL } from "@/lib/constants/variables";
 import type { MetadataRoute } from "next";
 
 export async function generateSitemaps() {

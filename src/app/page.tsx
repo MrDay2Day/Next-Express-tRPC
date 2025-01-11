@@ -50,24 +50,34 @@ export default async function Home() {
   const names = await getNames();
   return (
     <div className="flex-auto justify-center">
-      <h1 className="mb-10">{"Home Page (Static on Demand)"}</h1>
-      <div className="pv-10 mb-10">
+      <div className="my-5 ">
+        <h1 className="font-bold text-xl">
+          {"Home Page - (Rendered on Request)"}
+        </h1>
+        <p>This page is re rendered on every request</p>
+        <p>{'    export const dynamic = "force-dynamic";'}</p>
+      </div>
+      <div className="pv-10 mb-5 border-2 border-orange-400">
+        <h1>{"Server Component - trpcServerSide -> Function -> Component"}</h1>
         <h2 className="font-bold text-red-600 mb-5">Data fetched using tRPC</h2>
         {names &&
           names.map((user) => (
             <li key={user.id}>{`${user.id} - ${user.name}`}</li>
           ))}
       </div>
-      <p>
-        {nameAgain.map((x, i) => {
-          return (
-            <React.Fragment key={i}>
-              <span>{`${x.id}: ${x.name} - ${x.age} - ${x.email}`}</span>
-              <br />
-            </React.Fragment>
-          );
-        })}
-      </p>
+      <div className="pv-10 mb-5 border-2 border-orange-400">
+        <h1>{"Server Component - trpcServerSide -> Component"}</h1>
+        <p>
+          {nameAgain.map((x, i) => {
+            return (
+              <React.Fragment key={i}>
+                <span>{`${x.id}: ${x.name} - ${x.age} - ${x.email}`}</span>
+                <br />
+              </React.Fragment>
+            );
+          })}
+        </p>
+      </div>
       {/* <NextTRPCComp /> */}
       <TodoList />
       <Suspense fallback={<LoadingComp />}>

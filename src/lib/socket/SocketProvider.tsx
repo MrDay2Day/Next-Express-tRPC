@@ -9,8 +9,9 @@ import React, {
 } from "react";
 
 import io, { Socket } from "socket.io-client";
+import { BASE_URL } from "../constants/variables";
 
-const SERVER_URL = process.env.SERVER_URL;
+const SERVER_URL = BASE_URL;
 
 export type SocketContextValue = {
   socketId: string;
