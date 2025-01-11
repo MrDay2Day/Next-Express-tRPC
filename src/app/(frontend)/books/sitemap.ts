@@ -12,7 +12,6 @@ export async function generateSitemaps() {
   for (let i = 0; i < count; i++) {
     result.push({ id: i });
   }
-  console.log({ result });
   return result;
 }
 
@@ -23,8 +22,7 @@ export default async function sitemap({
 }): Promise<MetadataRoute.Sitemap> {
   // Google's limit is 50,000 URLs per sitemap
   const products = booksDatabase;
-  return products.map((product, index) => {
-    console.log({ id, index });
+  return products.map((_product, index) => {
     return {
       url: `${BASE_URL}/books/${index}`,
       lastModified: new Date(Date.now() + (id * (index * index) + 1) * 23163),
