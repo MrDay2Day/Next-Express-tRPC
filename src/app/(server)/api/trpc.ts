@@ -1,3 +1,5 @@
+import "server-only";
+
 import { initTRPC } from "@trpc/server";
 
 const t = initTRPC.create();

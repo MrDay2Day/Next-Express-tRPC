@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { trpcClientSide } from "@/utils/trpc/trpcClientSide";
 import { useState, useEffect } from "react";
 

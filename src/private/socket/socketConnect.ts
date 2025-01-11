@@ -1,3 +1,5 @@
+"use client";
+
 import io, { ManagerOptions, SocketOptions } from "socket.io-client";
 import { catchError } from "@/utils/catchError";
 

@@ -1,3 +1,5 @@
+import "server-only";
+
 import { publicProcedure_next, router_next } from "../../trpc";
 import { z } from "zod";
 import { BooksManagement } from "./books/books";

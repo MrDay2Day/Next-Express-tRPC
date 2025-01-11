@@ -60,10 +60,12 @@ export default async function Home() {
       <div className="pv-10 mb-5 border-2 border-orange-400">
         <h1>{"Server Component - trpcServerSide -> Function -> Component"}</h1>
         <h2 className="font-bold text-red-600 mb-5">Data fetched using tRPC</h2>
-        {names &&
-          names.map((user) => (
-            <li key={user.id}>{`${user.id} - ${user.name}`}</li>
-          ))}
+        <ul>
+          {names &&
+            names.map((user) => (
+              <li key={user.id}>{`${user.id} - ${user.name}`}</li>
+            ))}
+        </ul>
       </div>
       <div className="pv-10 mb-5 border-2 border-orange-400">
         <h1>{"Server Component - trpcServerSide -> Component"}</h1>
