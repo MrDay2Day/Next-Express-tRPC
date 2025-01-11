@@ -1,7 +1,7 @@
 // import { Request,  } from "express";
 //@ts-expect-error: unable to find types
 import emitter from "cluster-emitter";
-import { catchErrorPromise } from "../../../src/utils/catchError";
+import { catchErrorPromiseFunc } from "../../../src/utils/catchError";
 import { createClient } from "redis";
 import { Request, Response } from "express";
 
@@ -28,7 +28,7 @@ async function connectRedis() {
   try {
     console.log("CONNECTING TO REDIS FOR SSE");
     if (userRedis && redisClientPub && redisClientSub) {
-      const [connErr] = await catchErrorPromise(
+      const [connErr] = await catchErrorPromiseFunc(
         Promise.all([redisClientPub?.connect(), redisClientSub?.connect()])
       );
       if (connErr) throw connErr;

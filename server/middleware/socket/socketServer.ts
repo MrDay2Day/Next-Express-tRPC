@@ -5,7 +5,7 @@ import http from "http";
 import { createClient, RedisClientType } from "redis";
 import { createAdapter } from "@socket.io/redis-adapter";
 import { Server as SocketIOServer } from "socket.io";
-import { catchErrorPromise } from "../../../src/utils/catchError";
+import { catchErrorPromiseFunc } from "../../../src/utils/catchError";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -40,7 +40,7 @@ export async function init(httpServer: http.Server) {
 
   if (userRedis) {
     console.log("ATTEMPTING TO CONNECT TO REDIS");
-    const [connErr] = await catchErrorPromise(
+    const [connErr] = await catchErrorPromiseFunc(
       Promise.all([
         pubClient?.connect(),
         subClient?.connect(),

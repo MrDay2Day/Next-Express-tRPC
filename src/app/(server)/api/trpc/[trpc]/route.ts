@@ -1,5 +1,5 @@
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
-import { appRouter_next } from "../../index";
+import { appRouter_next } from "../_trpc_functions/index";
 
 const handler = async (req: Request) => {
   return fetchRequestHandler({

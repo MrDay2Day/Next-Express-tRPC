@@ -5,7 +5,7 @@ import { SignJWT } from "jose";
 // import { setSignedCookie } from "../../src/utils/cookies";
 // import { parse } from "cookie";
 import { jwtVerify } from "jose";
-import { catchErrorPromise } from "../../../src/utils/catchError";
+import { catchErrorPromiseFunc } from "../../../src/utils/catchError";
 dotenv.config();
 
 const JWT_SECRET = new TextEncoder().encode(
@@ -67,7 +67,7 @@ export default class CookieWorker {
         const cookieData = signedCookies[cookie];
 
         if (cookieData) {
-          const [err, verified] = await catchErrorPromise(
+          const [err, verified] = await catchErrorPromiseFunc(
             jwtVerify(cookieData, JWT_SECRET)
           );
           console.log({ err, verified });

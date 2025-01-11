@@ -1,13 +1,13 @@
 import "server-only";
 import { NextResponse } from "next/server";
-import { catchErrorPromise } from "../../../../utils/catchError";
+import { catchErrorPromiseFunc } from "../../../../utils/catchError";
 import { fetchFromDatabase } from "../../../../private/db_access";
 import { composeMiddleware } from "../../../../middleware/server/server_middlewares";
 import { authMiddleware } from "../../../../middleware/server/middlewares/authMiddleware";
 
 async function handle_get() {
   try {
-    const [_err, data] = await catchErrorPromise(fetchFromDatabase());
+    const [_err, data] = await catchErrorPromiseFunc(fetchFromDatabase());
     if (_err) throw _err;
 
     NextResponse.json(data);

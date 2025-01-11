@@ -2,12 +2,12 @@ import express, { Request, Response } from "express";
 import { createServer } from "http";
 import next from "next";
 
-import { catchErrorPromise } from "../src/utils/catchError";
 import { init } from "./middleware/socket/socketServer";
 import { generalListeners } from "./middleware/socket/listen";
 import routes from "./routes";
 import { serverLogs } from "./middleware/modules";
 import dotenv from "dotenv";
+import { catchErrorPromiseFunc } from "../src/utils/catchError";
 dotenv.config();
 
 async function startNextExpressServer() {
@@ -25,7 +25,7 @@ async function startNextExpressServer() {
     const server = createServer(expressApp);
 
     // Socket.IO event handlers with type safety
-    const [ExpressErr, ExpressSocketServer] = await catchErrorPromise(
+    const [ExpressErr, ExpressSocketServer] = await catchErrorPromiseFunc(
       init(server)
     );
     if (ExpressErr) throw ExpressErr;

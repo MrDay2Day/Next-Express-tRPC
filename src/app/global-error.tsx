@@ -3,11 +3,11 @@
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
-export default function Error({
+export default function GlobalError({
   error,
   reset,
 }: {
-  error: Error;
+  error: Error & { digest?: string };
   reset: () => void;
 }) {
   useEffect(() => {

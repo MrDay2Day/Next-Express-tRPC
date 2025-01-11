@@ -1,5 +1,6 @@
-import { publicProcedure_next, router_next } from "./trpc.ts";
+import { publicProcedure_next, router_next } from "../../trpc.ts.js";
 import { z } from "zod";
+import { BooksManagement } from "./books/books.js";
 
 export const appRouter_next = router_next({
   getTodos: publicProcedure_next.query(async () => {
@@ -16,6 +17,7 @@ export const appRouter_next = router_next({
       };
     }),
 
+  books: BooksManagement,
   addNumbers: publicProcedure_next
     .input(
       z.object({
@@ -24,7 +26,9 @@ export const appRouter_next = router_next({
       })
     )
     .mutation(({ input }) => {
-      return input.num1 + input.num2;
+      console.log({ input });
+      const result = input.num1 + input.num2;
+      return result;
     }),
 });
 

@@ -15,7 +15,7 @@ export const accessLogStream = createStream("access.log", {
   interval: "1d", // Rotate daily
   size: "10M", // Maximum file size before rotating
   path: path.join(__dirname, "..", "logs"), // Directory for logs
-  compress: "gzip", // Compress rotated files
+  // compress: "gzip", // Compress rotated files
 });
 
 // Configure morgan to use the rotating stream

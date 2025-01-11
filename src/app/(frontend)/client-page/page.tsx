@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { catchErrorPromise } from "../../../utils/catchError";
+import { catchErrorPromiseFunc } from "../../../utils/catchError";
 import { useSocket } from "../../../lib/socket/socketHook";
 import ServerSideEvent from "@/components/ServerSideEvent/ServerSideEvent";
 
@@ -22,7 +22,7 @@ export default function ClientPage() {
     setError(null);
     try {
       // Need to call through an API route since we can't directly use server-only code
-      const [resErr, response] = await catchErrorPromise(
+      const [resErr, response] = await catchErrorPromiseFunc(
         fetch("/api/get-data", {
           headers: {
             "Content-Type": "application/json",
