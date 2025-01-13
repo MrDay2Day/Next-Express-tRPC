@@ -18,8 +18,8 @@ const pwaConfig: withPWA.PWAConfig = {
 };
 
 // const mergeConfigs: NextConfig & withPWA.PWAConfig = {
-//   ...pwaConfig,
 //   ...nextConfig
+//   ...pwaConfig,
 // }
 
 // @ts-expect-error: Expect both types NextConfig & withPWA.PWAConfig however NextConfig is different from the NextConfig 'withPWA' expects.

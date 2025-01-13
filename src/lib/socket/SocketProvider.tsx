@@ -9,7 +9,7 @@ import React, {
 } from "react";
 
 import io, { Socket } from "socket.io-client";
-import { BASE_URL } from "../constants/variables";
+import { BASE_URL } from "../../../types/constants/general";
 
 const SERVER_URL = BASE_URL;
 
