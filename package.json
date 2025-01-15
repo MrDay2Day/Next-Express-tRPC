@@ -1,6 +1,7 @@
 {
   "name": "next-express-trpc",
   "version": "0.1.0",
+  "description": "This TypeScript template provides a robust and well-structured foundation for building modern web applications. It leverages Next.js for frontend development, Express.js for backend APIs, and integrates Socket.IO for real-time communication. The template incorporates tRPC for type-safe data fetching, includes examples of SSR, SSG, and dynamic pages, and features examples of secure cookie management. With a focus on best practices and a modular design, this template streamlines development and enhances code quality, making it an ideal starting point for various web projects.",
   "private": true,
   "scripts": {
     "dev": "cross-env  NODE_ENV=development next dev --turbopack -p 5438",
