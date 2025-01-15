@@ -41,4 +41,3 @@
 - Enhanced Developer Experience: The template offers a smooth development experience with features like real-time communication, secure cookie handling, and robust API support.
 - This TypeScript template repository offers a comprehensive and well-crafted starting point for building modern web applications. It effectively combines the power of Next.js, Express.js, and other cutting-edge technologies to provide a robust and flexible foundation for your projects.
 
-I hope this explanation is helpful!
