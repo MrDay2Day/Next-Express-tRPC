@@ -1,12 +1,13 @@
 import webpush from "web-push";
 import z from "zod";
 import { publicProcedure, router } from "../config";
-import { subscriptions } from "../../push/subscriptions";
+import { notifyCount, subscriptions, tally } from "../../push/subscriptions";
 
 interface NotificationPayload {
   title: string;
   body: string;
   icon?: string;
+  image?: string;
   badge?: string;
   data?: Record<string, unknown>;
   actions?: Array<{
@@ -14,6 +15,31 @@ interface NotificationPayload {
     title: string;
   }>;
 }
+
+const notificationMsg: NotificationPayload = {
+  title: "Main Title " + notifyCount,
+  body: "This is a message for the title number " + notifyCount,
+  icon: "https://xyzabc.day2dayja.com/icons/logo_sqr-192.png",
+  badge:
+    "https://files.bidsquawk.com/file/bsq-public/profil…b5-df89-4ccd-9a6c-44fa849e98c9-1727830976322.jpeg",
+  image:
+    "https://files.bidsquawk.com/file/bsq-public/post/regular/511tssuob0s04f936ckt-d4b1032a-6a8f-402d-9776-57aa11761e9d-1721356182927.jpeg",
+  data: {
+    dateOfArrival: new Date().toISOString(),
+    primaryKey: notifyCount,
+    endPoint: `/${notifyCount}`,
+  },
+  actions: [
+    {
+      action: "explore",
+      title: "View Details",
+    },
+    {
+      action: "close",
+      title: "Close",
+    },
+  ],
+};
 
 const vapidKeys = {
   publicKey:
@@ -40,6 +66,7 @@ const PushNotifications = router({
     .input(subscriptionData)
     .mutation(async ({ input }) => {
       subscriptions.add(input);
+      console.dir(input, { depth: "*" });
       return { message: "Subscription added successfully" };
     }),
   unsubscribe: publicProcedure
@@ -62,10 +89,7 @@ const PushNotifications = router({
       try {
         await webpush.sendNotification(
           subscription,
-          JSON.stringify({
-            title: input.title,
-            body: input.body,
-          } as NotificationPayload)
+          JSON.stringify(notificationMsg as NotificationPayload)
         );
         notifications.push({ status: "success", subscription });
       } catch (error: unknown | webpush.WebPushError | Error) {
@@ -78,6 +102,8 @@ const PushNotifications = router({
         if (error && (error as webpush.WebPushError).statusCode === 410) {
           subscriptions.delete(subscription);
         }
+      } finally {
+        tally();
       }
 
       return { notifications };

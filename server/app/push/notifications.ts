@@ -1,12 +1,13 @@
 import express from "express";
 import webpush from "web-push";
-import { subscriptions } from "./subscriptions";
+import { notifyCount, subscriptions, tally } from "./subscriptions";
 
 // types/notification.ts
 interface NotificationPayload {
   title: string;
   body: string;
   icon?: string;
+  image?: string;
   badge?: string;
   data?: Record<string, unknown>;
   actions?: Array<{
@@ -14,6 +15,28 @@ interface NotificationPayload {
     title: string;
   }>;
 }
+
+const notificationMsg: NotificationPayload = {
+  title: "Main Title " + notifyCount,
+  body: "This is a message for the title number " + notifyCount,
+  icon: "https://xyzabc.day2dayja.com/icons/logo_sqr-192.png",
+  badge: "https://xyzabc.day2dayja.com/icons/logo_sqr-72.png",
+  image: "https://xyzabc.day2dayja.com/icons/logo_sqr-192.png",
+  data: {
+    dateOfArrival: new Date().toISOString(),
+    primaryKey: notifyCount,
+  },
+  actions: [
+    {
+      action: "explore",
+      title: "View Details",
+    },
+    {
+      action: "close",
+      title: "Close",
+    },
+  ],
+};
 
 const pushRouter = express.Router();
 
@@ -72,7 +95,7 @@ pushRouter.post(
       try {
         await webpush.sendNotification(
           subscription,
-          JSON.stringify({ title, body } as NotificationPayload)
+          JSON.stringify(notificationMsg as NotificationPayload)
         );
         notifications.push({ status: "success", subscription });
       } catch (error: unknown | webpush.WebPushError | Error) {
@@ -85,6 +108,8 @@ pushRouter.post(
         if (error && (error as webpush.WebPushError).statusCode === 410) {
           subscriptions.delete(subscription);
         }
+      } finally {
+        tally();
       }
     }
 

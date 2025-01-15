@@ -1,42 +1,47 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 //worker.js
-self.addEventListener("push", (event) => {
-  console.log({ event });
-  const options = {
-    body: event.data.text(),
-    icon: "/icons/logo-192x192.png",
-    badge: "/icons/logo-72x72.png",
-    vibrate: [100, 50, 100],
-    data: {
-      dateOfArrival: Date.now(),
-      primaryKey: 1,
-    },
-    actions: [
-      {
-        action: "explore",
-        title: "View Details",
-      },
-      {
-        action: "close",
-        title: "Close",
-      },
-    ],
-  };
 
-  event.waitUntil(
-    self.registration.showNotification("Push Notification", options)
-  );
+async function parseData(rawData) {
+  let data = {};
+  try {
+    const tempt = await JSON.parse(rawData.text());
+    console.log({ tempt });
+    data = { vibrate: [100, 50, 100], ...tempt };
+  } catch (error) {
+    data = {
+      vibrate: [100, 50, 100],
+      title: "New Notification",
+      body: "You have a new notifications...",
+      icon: "https://xyzabc.day2dayja.com/icons/logo_sqr-192.png",
+      badge: "https://xyzabc.day2dayja.com/icons/logo_sqr-72.png",
+      image: "https://xyzabc.day2dayja.com/icons/logo_sqr-192.png",
+      actions: [
+        {
+          action: "explore",
+          title: "View Details",
+        },
+        {
+          action: "close",
+          title: "Close",
+        },
+      ],
+    };
+  }
+
+  return data;
+}
+self.addEventListener("push", async (event) => {
+  console.dir({ type: "push", event: event.data.text() }, { depth: "*" });
+  const data = await parseData(event.data);
+  event.waitUntil(self.registration.showNotification(data.title, data));
 });
-
-self.addEventListener("notificationclick", (event) => {
-  console.log("Notification clicked:", event.notification.data);
-
-  // Handle notification click event, like focusing the app or navigating to a page
+self.addEventListener("notificationclick", async (event) => {
+  console.dir({ type: "notificationclick", event }, { depth: "*" });
   event.notification.close();
-
-  // Here you can send data back to the main thread (React app)
   event.waitUntil(
-    clients.openWindow("/") // Open the main page when notification is clicked
+    clients.openWindow(
+      event.notification.data.endPoint ? event.notification.data.endPoint : "/"
+    )
   );
 });
 

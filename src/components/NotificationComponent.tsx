@@ -92,9 +92,10 @@ const NotificationComponent = () => {
         },
       };
 
-      const response = await trpcClientSide.PushNotifications.subscribe.mutate(
-        mappedSubscription
-      );
+      const response =
+        await trpcClientSide.PushNotifications.unsubscribe.mutate(
+          mappedSubscription
+        );
 
       console.log("UnSubscribed to push status: ", response);
     } catch (error) {
