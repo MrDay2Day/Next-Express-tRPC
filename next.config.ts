@@ -17,12 +17,5 @@ const pwaConfig: withPWA.PWAConfig = {
   skipWaiting: true,
 };
 
-// const mergeConfigs: NextConfig & withPWA.PWAConfig = {
-//   ...nextConfig
-//   ...pwaConfig,
-// }
-
 // @ts-expect-error: Expect both types NextConfig & withPWA.PWAConfig however NextConfig is different from the NextConfig 'withPWA' expects.
 export default withPWA(pwaConfig)(nextConfig);
-
-// export default withPWA(mergeConfigs);
