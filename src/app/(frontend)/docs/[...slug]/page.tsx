@@ -3,7 +3,9 @@ import "server-only";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import BackButton from "../../../../components/BackButton";
-import InputSection from "./utils/InputSection";
+
+/* Express Server Functionality */
+// import InputSection from "./utils/InputSection";
 
 // For static params
 type SearchQueryType = { string: string; boolean: boolean; number: number };
@@ -74,7 +76,9 @@ export default async function Searched({ params }: Props) {
     <>
       <div>
         <h1>Docs</h1>
-        <InputSection />
+        {/* Express Server Functionality */}
+        {/* <InputSection /> */}
+
         {resolvedParams.slug.length == 1 ? (
           <>
             <h2>{decodeURI(resolvedParams.slug[0])}</h2>

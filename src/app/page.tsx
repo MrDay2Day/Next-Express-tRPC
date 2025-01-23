@@ -3,7 +3,9 @@ import React, { lazy, Suspense } from "react";
 import { LoadingComp } from "./loading";
 import { nextDynamic } from "@/utils/dynamic";
 import CookieDemo from "@/components/demo/cookie";
-import { trpcServerSide } from "@/utils/trpc/trpcServerSide";
+
+/** Express Server Functionality */
+// import { trpcServerSide } from "../../server/trpc/trpcServerSide";
 
 const NextTRPCComp = nextDynamic(
   // @ts-expect-error: None
@@ -34,20 +36,21 @@ const Notes = nextDynamic(() => import("../components/hooks-comps/notes"), {
   ssr: true, // Optional: Disable server-side rendering for this component
 });
 
-async function getNames() {
-  try {
-    const names = await trpcServerSide.UserManagement.getUsers.query(); // Does a fetch to local server
-    return names;
-  } catch (error) {
-    console.log({ error });
-    return null;
-  }
-}
+/** Express Server Functionality */
+// async function getNames() {
+//   try {
+//     const names = await trpcServerSide.UserManagement.getUsers.query(); // Does a fetch to local server
+//     return names;
+//   } catch (error) {
+//     console.log({ error });
+//     return null;
+//   }
+// }
 
 export const dynamic = "force-dynamic"; // To ensure this page is rerendered on every request
 export default async function Home() {
-  const nameAgain = await trpcServerSide.UserManagement.getUsers.query();
-  const names = await getNames();
+  // const nameAgain = await trpcServerSide.UserManagement.getUsers.query();
+  // const names = await getNames();
   return (
     <div className="flex-auto justify-center">
       <div className="my-5 ">
@@ -60,16 +63,18 @@ export default async function Home() {
       <div className="pv-10 mb-5 border-2 border-orange-400">
         <h1>{"Server Component - trpcServerSide -> Function -> Component"}</h1>
         <h2 className="font-bold text-red-600 mb-5">Data fetched using tRPC</h2>
-        <ul>
+        {/* Express Server Functionality */}
+        {/* <ul>
           {names &&
             names.map((user) => (
               <li key={user.id}>{`${user.id} - ${user.name}`}</li>
             ))}
-        </ul>
+        </ul> */}
       </div>
       <div className="pv-10 mb-5 border-2 border-orange-400">
         <h1>{"Server Component - trpcServerSide -> Component"}</h1>
-        <p>
+        {/* Express Server Functionality */}
+        {/* <p>
           {nameAgain.map((x, i) => {
             return (
               <React.Fragment key={i}>
@@ -78,7 +83,7 @@ export default async function Home() {
               </React.Fragment>
             );
           })}
-        </p>
+        </p> */}
       </div>
       {/* <NextTRPCComp /> */}
       <TodoList />

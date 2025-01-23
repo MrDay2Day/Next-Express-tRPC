@@ -1,4 +1,4 @@
-# Full Stack template
+# Full Stack Template
 
 ## Core Technologies:
 
@@ -8,6 +8,7 @@
 - **Socket.IO:** A library for real-time, bidirectional communication between the client and server, enabling features like chat, notifications, and live updates.
 - **Redis:** An in-memory data store used as a message broker for Socket.IO, providing efficient pub/sub messaging.
 - **tRPC:** A type-safe procedure call remote procedure call (RPC) protocol, simplifying data fetching and mutations across your frontend and backend.
+- **Cloudflare Workers:** Deploy application on Cloudflare Workers. (NextJs & NextJs APIs Only - This is a stateless deployment express server & services cannot be deployed, Next Middleware are disabled and should be removed.)
 
 ## Key Features:
 
@@ -41,3 +42,28 @@
 - Enhanced Developer Experience: The template offers a smooth development experience with features like real-time communication, secure cookie handling, and robust API support.
 - This TypeScript template repository offers a comprehensive and well-crafted starting point for building modern web applications. It effectively combines the power of Next.js, Express.js, and other cutting-edge technologies to provide a robust and flexible foundation for your projects.
 
+## Changes to make
+
+There are just a couple changes that are required to personalize the application.
+
+1. package.json
+   - name
+   - version
+   - description
+1. .env
+   - NODE_ENV
+   - SERVER_URL
+   - PORT
+   - USE_REDIS
+   - REDIS_HOST
+   - REDIS_USER
+   - REDIS_PASS
+   - REDIS_PORT
+   - REDIS_URL
+   - COOKIE_SECRET
+   - JWT_SECRET
+1. wrangler.json
+   - name
+1. worker.js
+   - Edit based on need, such as title, body, icon, etc.
+   - Choose actions for buttons

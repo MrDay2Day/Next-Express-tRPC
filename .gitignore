@@ -27,6 +27,11 @@ server/logs/*
 .DS_Store
 *.pem
 
+# wrangler
+.wrangler
+.open-next
+.dev.vars
+
 # debug
 npm-debug.log*
 yarn-debug.log*

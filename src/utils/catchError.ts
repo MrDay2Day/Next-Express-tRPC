@@ -9,7 +9,14 @@
  * @returns {Promise<[undefined, T] | [Error | unknown]>} A promise that resolves to a tuple:
 - On success: `[undefined, T]` where `T` is the resolved value of the passed promise.
 - On error: `[Error | unknown]` where the first element is the caught error.
+ * @example
+ * async function doAsyncAction(var_1: string, var_2: string, var_3: string){
+ *  ...
+ *  return {...}
+ * }
+ * const [error, data] = catchError(doAsyncAction, [var_1, var_2, var_3])
  */
+
 export async function catchErrorPromise<T>(
   promise: (...args: any[]) => Promise<T>,
   promise_var: any[]
@@ -61,6 +68,12 @@ export async function catchErrorPromiseFunc<T>(
  * @returns {[undefined, T] | [Error | unknown]} A tuple:
  *  - On success: `[undefined, T]` where `T` is the result of the function.
  *  - On error: `[Error | unknown]` where the first element is the caught error.
+ * @example
+ * function doAction(var_1: string, var_2: string, var_3: string){
+ *  ...
+ *  return {...}
+ * }
+ * const [error, data] = catchError(doAction, [var_1, var_2, var_3])
  */
 export function catchError<T>(
   func: (...args: any[]) => T,

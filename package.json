@@ -5,12 +5,17 @@
   "private": true,
   "scripts": {
     "dev": "cross-env  NODE_ENV=development next dev --turbopack -p 5438",
-    "dev-node": "cross-env  NODE_ENV=development nodemon --watch './server/**/*.ts' --exec 'ts-node' ./server.ts",
+    "dev:node": "cross-env  NODE_ENV=development nodemon --watch './server/**/*.ts' --exec 'ts-node' ./server.ts",
     "ts": "npx ts-node-dev --respawn server.ts",
     "build": "next build --debug",
     "start": "cross-env  NODE_ENV=production next start -p 5438",
-    "start-node": "cross-env  NODE_ENV=production ts-node ./server.ts",
-    "lint": "next lint"
+    "start:node": "cross-env  NODE_ENV=production ts-node ./server.ts",
+    "lint": "next lint",
+    "build:worker": "opennextjs-cloudflare",
+    "dev:worker": "wrangler dev --port 8771",
+    "preview": "npm run build:worker && npm run dev:worker",
+    "deploy": "npm run build:worker && wrangler deploy",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
     "@editorjs/code": "^2.9.2",
@@ -27,6 +32,7 @@
     "@trpc/next": "^10.45.2",
     "@trpc/react-query": "^10.45.2",
     "@trpc/server": "^10.45.2",
+    "axios": "^1.7.9",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cluster-emitter": "^0.5.0-SNAPSHOT.1388501015412",
@@ -45,8 +51,8 @@
     "next": "^15.1.4",
     "next-pwa": "^5.6.0",
     "nodemon": "^3.1.7",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-map-gl": "^7.1.7",
     "react-redux": "^9.1.2",
     "redis": "^4.7.0",
@@ -62,6 +68,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^0.3.9",
     "@types/compression": "^1.7.5",
     "@types/cookie-parser": "^1.4.7",
     "@types/express": "^5.0.0",
@@ -80,6 +87,7 @@
     "eslint-config-next": "15.0.1",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "wrangler": "^3.103.2"
   }
 }

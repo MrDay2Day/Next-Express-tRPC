@@ -1,5 +1,5 @@
 "use client";
-import { trpcClientSide } from "@/utils/trpc/trpcClientSide";
+import { trpcClientSide } from "../../../../../../server/trpc/trpcClientSide";
 import { useState } from "react";
 
 export default function InputSection() {

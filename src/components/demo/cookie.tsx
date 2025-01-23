@@ -1,6 +1,6 @@
 "use server";
 import { booksDatabase } from "@/app/(server)/api/trpc/_trpc_functions/books/books";
-import { trpcServerSide } from "@/utils/trpc/trpcServerSide";
+import { trpcServerSide } from "../../../server/trpc/trpcServerSide";
 
 const fetchCookies = async () => {
   try {
