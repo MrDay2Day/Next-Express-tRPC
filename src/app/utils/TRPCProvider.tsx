@@ -4,6 +4,7 @@ import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { trpcNextAPIClient } from "@/app/_trpc/client";
+import superjson from "superjson";
 
 export default function TRPCProvider({
   children,
@@ -24,6 +25,7 @@ export default function TRPCProvider({
           },
         }),
       ],
+      transformer: superjson,
     })
   );
   return (

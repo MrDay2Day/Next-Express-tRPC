@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV !== "development",
   },
+  experimental: {
+    swcPlugins: [],
+  },
 };
 
 const pwaConfig: withPWA.PWAConfig = {

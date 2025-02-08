@@ -62,8 +62,8 @@ There are just a couple changes that are required to personalize the application
    - REDIS_URL
    - COOKIE_SECRET
    - JWT_SECRET
-1. wrangler.json
-   - name
 1. worker.js
    - Edit based on need, such as title, body, icon, etc.
    - Choose actions for buttons
+1. wrangler.json
+   - name

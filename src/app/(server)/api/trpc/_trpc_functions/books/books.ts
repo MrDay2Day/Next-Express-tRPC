@@ -88,7 +88,7 @@ export const BooksManagement = router_next({
     .mutation(async ({ input }) => {
       const book = booksDatabase[input];
       if (book) {
-        return { book };
+        return { book, date: new Date() };
       } else {
         throw new TRPCError({
           code: "NOT_FOUND",

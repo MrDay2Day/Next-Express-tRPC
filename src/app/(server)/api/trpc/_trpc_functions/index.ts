@@ -16,6 +16,7 @@ export const appRouter_next = router_next({
     .query(({ input }) => {
       return {
         greeting: `Hello ${input?.name || "world"}!`,
+        theDate: new Date(),
       };
     }),
 

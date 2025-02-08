@@ -49,8 +49,10 @@ const Notes = nextDynamic(() => import("../components/hooks-comps/notes"), {
 
 export const dynamic = "force-dynamic"; // To ensure this page is rerendered on every request
 export default async function Home() {
+  /** Express Server Functionality */
   // const nameAgain = await trpcServerSide.UserManagement.getUsers.query();
   // const names = await getNames();
+
   return (
     <div className="flex-auto justify-center">
       <div className="my-5 ">

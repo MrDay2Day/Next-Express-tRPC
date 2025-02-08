@@ -4,6 +4,8 @@
 import { initTRPC } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import { EventEmitter } from "events";
+import superjson from "superjson";
+import { ZodError } from "zod";
 
 // Create EventEmitter instance
 export const ee = new EventEmitter();
@@ -18,7 +20,19 @@ export const createContext = ({
 export type Context = Awaited<ReturnType<typeof createContext>>;
 
 // Initialize tRPC
-const t = initTRPC.context<Context>().create();
+const t = initTRPC.context<Context>().create({
+  transformer: superjson,
+  errorFormatter({ shape, error }) {
+    return {
+      ...shape,
+      data: {
+        ...shape.data,
+        zodError:
+          error.cause instanceof ZodError ? error.cause.flatten() : null,
+      },
+    };
+  },
+});
 
 // Create middleware for logging
 const loggerMiddleware = t.middleware(async ({ path, type, next }) => {
