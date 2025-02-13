@@ -1,15 +1,24 @@
 "use server";
-import { booksDatabase } from "@/app/(server)/api/trpc/_trpc_functions/books/books";
-import { trpcServerSide } from "../../../server/trpc/trpcServerSide";
+
+/** Express Server Functionality */
+import { createCaller } from "../../../server/app/trpc/trpc";
 
 const fetchCookies = async () => {
   try {
-    const books = booksDatabase;
-    console.log({ books });
-    const set = await trpcServerSide.CookieManagement.setCookie.query();
-    const get = await trpcServerSide.CookieManagement.getCookie.query();
-    console.log({ set, get });
-    return { set, get };
+    /** Express Server Functionality */
+    // Calling the ExpressAPI tRPC route to access the function on server component
+    const appCaller = createCaller({});
+    const set_res = await appCaller.CookieManagement.setCookie();
+    const get_res = await appCaller.CookieManagement.getCookie();
+
+    const user_get = await appCaller.UserManagement.getUsers();
+    const user_create = await appCaller.UserManagement.createUser({
+      email: "newemail@email.com",
+      name: "new name",
+    });
+
+    console.log({ set_res, get_res, user_get, user_create });
+    return;
   } catch (error) {
     console.error("Error fetching cookies:", error);
   }

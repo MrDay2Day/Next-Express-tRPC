@@ -19,7 +19,6 @@ const COOKIE_OPTIONS = {
 
 // Set a signed cookie
 export async function setSignedCookie(
-  res: Response,
   name: string,
   value: unknown,
   options: Record<string, unknown> = {}
@@ -47,7 +46,7 @@ export async function getSignedCookie(
   name: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any | null> {
-  const cookies = parse(req.headers.get("cookie") || "");
+  const cookies = parse(req.headers?.get("cookie") || "");
   const token = cookies[name];
 
   if (!token) return null;

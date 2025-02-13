@@ -2,12 +2,16 @@
 import React, { lazy, Suspense } from "react";
 import { LoadingComp } from "./loading";
 import { nextDynamic } from "@/utils/dynamic";
-import CookieDemo from "@/components/demo/cookie";
+
+/** Express Server Functionality */
+// import CookieDemo from "@/components/demo/cookie";
 
 /** Express Server Functionality */
 // import { trpcServerSide } from "../../server/trpc/trpcServerSide";
 
-const NextTRPCComp = nextDynamic(
+const NextTRPCComp = nextDynamic<
+  React.ComponentProps<typeof import("@/components/NextTRPCComp").default>
+>(
   // @ts-expect-error: None
   () => import("@/components/NextTRPCComp"),
   {
@@ -16,14 +20,14 @@ const NextTRPCComp = nextDynamic(
   }
 );
 
-const TodoList = nextDynamic(
+// Get the type for the Component so you can pass props including children
+const TodoList = nextDynamic<
+  React.ComponentProps<typeof import("@/components/ToDoList").default>
   // @ts-expect-error: None
-  () => import("@/components/ToDoList"),
-  {
-    loading: () => <LoadingComp />, // Optional custom fallback
-    ssr: true, // Optional: Disable server-side rendering for this component
-  }
-);
+>(() => import("@/components/ToDoList"), {
+  loading: () => <LoadingComp />,
+  ssr: true,
+});
 
 const ListenTest = lazy(
   // @ts-expect-error: None
@@ -88,13 +92,20 @@ export default async function Home() {
         </p> */}
       </div>
       {/* <NextTRPCComp /> */}
-      <TodoList />
+      <TodoList>
+        <p>Lazy Loaded with children props...</p>
+      </TodoList>
       <Suspense fallback={<LoadingComp />}>
-        <ListenTest />
+        <ListenTest>
+          <p>Lazy Loaded with children props...</p>
+        </ListenTest>
       </Suspense>
       <Notes />
-      <CookieDemo />
-      <NextTRPCComp />
+      {/* Express Server Functionality */}
+      {/* <CookieDemo /> */}
+      <NextTRPCComp>
+        <p>Lazy Loaded with children props...</p>
+      </NextTRPCComp>
     </div>
   );
 }

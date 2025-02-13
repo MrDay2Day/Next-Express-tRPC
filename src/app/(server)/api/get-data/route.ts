@@ -14,7 +14,7 @@ async function handle_get() {
 
     const response = NextResponse.json(data);
 
-    // Method 1: Using .cookies() method
+    // Method 1: Setting cookies() method
     response.cookies.set({
       name: "secure_token",
       value: JSON.stringify({
@@ -37,9 +37,6 @@ async function handle_get() {
      * );
      *
      */
-    /* 
-
-    */
 
     return response;
   } catch (error) {

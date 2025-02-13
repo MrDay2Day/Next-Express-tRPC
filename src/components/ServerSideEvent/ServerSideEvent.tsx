@@ -61,12 +61,12 @@ export default function ServerSideEvent() {
       </p>
       <p style={{ marginLeft: 20, fontSize: 20 }}>
         {`Count: `}
-        <span style={{ color: "darkgreen", fontWeight: "bolder" }}>
+        <span style={{ color: "lightgreen", fontWeight: "bolder" }}>
           {count ? count : "..."}
         </span>
         <br />
         {`Data: `}
-        <span style={{ color: "darkgreen", fontWeight: "bolder" }}>
+        <span style={{ color: "lightgreen", fontWeight: "bolder" }}>
           {data ? data : "..."}
         </span>
       </p>

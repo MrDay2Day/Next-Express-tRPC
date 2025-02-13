@@ -1,10 +1,20 @@
 "use server";
-import { booksDatabase } from "@/app/(server)/api/trpc/_trpc_functions/books/books";
 import Link from "next/link";
 import React from "react";
+import { createCaller_next } from "../../(server)/api/trpc/_trpc_functions/index";
 
 const Books: React.FC = async () => {
-  const books = booksDatabase;
+  // Calling the NextAPI tRPC route to access the function on server component
+  const appCaller_next = createCaller_next({
+    req: null,
+    res: null,
+    authHeader: undefined,
+  });
+
+  const books = await appCaller_next.books.fetchAll({ count: 10 });
+
+  console.log({ books });
+
   return (
     <div>
       <h1>Books Page</h1>

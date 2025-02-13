@@ -64,7 +64,7 @@ export default function ClientPage() {
         Fetch data from NextAPI
       </button>
 
-      {loading && <div>Loading...</div>}
+      {loading && <p>Loading...</p>}
       {error && <div className="text-red-500">{error}</div>}
       {data && !loading && (
         <div className="border p-4 rounded-lg">

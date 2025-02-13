@@ -34,7 +34,7 @@ export async function init(httpServer: http.Server) {
       origin: process.env.SERVER_URL,
       credentials: true,
       methods: ["GET", "POST"],
-      allowedHeaders: ["Authorization", "my-custom-header"],
+      allowedHeaders: ["Authorization"],
     },
   });
 
@@ -48,12 +48,13 @@ export async function init(httpServer: http.Server) {
       ])
     );
 
-    if (!connErr) {
-      io.adapter(createAdapter(pubClient, subClient));
-      console.log("SOCKET CONNECTED TO REDIS!");
-    } else {
+    if (connErr) {
       console.log("REDIS CONNECTION ERROR", connErr);
+      throw connErr;
     }
+
+    io.adapter(createAdapter(pubClient, subClient));
+    console.log("SOCKET CONNECTED TO REDIS!");
 
     // console.log({ io });
     console.log("SECURE WEBSOCKET INITIALIZED!");

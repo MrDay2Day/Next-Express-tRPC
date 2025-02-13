@@ -2,7 +2,7 @@
  * Main Routes for tRPC Server
  */
 
-import { router } from "./config";
+import { callerFactory, router } from "./config";
 import UserManagement from "./routes/userManagement";
 import CookieManagement from "./routes/cookieManagement";
 import PushNotifications from "./routes/notifications";
@@ -14,5 +14,7 @@ export const appRouter = router({
   PushNotifications,
 });
 
+// Caller to use ExpressAPI tRPC functions on the server
+export const createCaller = callerFactory(appRouter);
 // Export type router type signature
 export type AppRouter = typeof appRouter;

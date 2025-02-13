@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV !== "development",
   },
+  images: {
+    domains: ["di-uploads-pod14.dealerinspire.com"],
+  },
   experimental: {
     swcPlugins: [],
   },

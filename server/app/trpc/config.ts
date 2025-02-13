@@ -4,8 +4,12 @@
 import { initTRPC } from "@trpc/server";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import { EventEmitter } from "events";
-import superjson from "superjson";
+
 import { ZodError } from "zod";
+// @ts-expect-error works
+import { superjsonExport } from "./module";
+
+// const superjson = require("superjson").default;
 
 // Create EventEmitter instance
 export const ee = new EventEmitter();
@@ -20,8 +24,10 @@ export const createContext = ({
 export type Context = Awaited<ReturnType<typeof createContext>>;
 
 // Initialize tRPC
-const t = initTRPC.context<Context>().create({
-  transformer: superjson,
+// const t = initTRPC.context<Context>().create({
+const t = initTRPC.create({
+  // @ts-expect-error works
+  transformer: superjsonExport,
   errorFormatter({ shape, error }) {
     return {
       ...shape,
@@ -36,13 +42,17 @@ const t = initTRPC.context<Context>().create({
 
 // Create middleware for logging
 const loggerMiddleware = t.middleware(async ({ path, type, next }) => {
+  console.log({ path, type, next });
   const start = Date.now();
-  const result = await next();
+  const result = next();
   const duration = Date.now() - start;
-  console.log(`Method: ${type} | Function: ${path} | Duration: ${duration}ms`);
+  console.log(
+    `ExpressAPI tRPC - Method: ${type} | Function: ${path} | Duration: ${duration}ms`
+  );
   return result;
 });
 
 // Create router and procedure helpers
 export const router = t.router;
+export const callerFactory = t.createCallerFactory;
 export const publicProcedure = t.procedure.use(loggerMiddleware);

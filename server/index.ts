@@ -8,10 +8,19 @@ import routes from "./routes";
 import { serverLogs } from "./middleware/modules";
 import dotenv from "dotenv";
 import { catchErrorPromiseFunc } from "../src/utils/catchError";
+import { loadSuperjson } from "./app/trpc/module";
+
 dotenv.config();
+
+/**
+ * *****************************************************
+ * **** DO NOT CHANGE 'startNextExpressServer' NAME ****
+ * *****************************************************
+ */
 
 async function startNextExpressServer() {
   try {
+    await loadSuperjson();
     const app = next({
       dev: process.env.NODE_ENV !== "production",
       turbo: true,
@@ -53,5 +62,11 @@ async function startNextExpressServer() {
     setTimeout(() => startNextExpressServer(), 3000);
   }
 }
+
+/**
+ * ******************************************
+ * **** DO NOT EDIT DEFAULT EXPORT BELOW ****
+ * ******************************************
+ */
 
 export default startNextExpressServer;

@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 "use client";
 
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { trpcNextAPIClient } from "@/app/_trpc/client";
-import superjson from "superjson";
+// import superjson from "superjson";
+const superjson = require("superjson").default;
 
 export default function TRPCProvider({
   children,

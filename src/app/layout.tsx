@@ -5,11 +5,14 @@ import "./globals.css";
 
 // Accessing cookies for server pages
 import StoreProvider from "@/lib/store/StoreProvider";
-import NavBar from "@/components/navigation/nav_bar";
 import { SocketProvider } from "@/lib/socket/SocketProvider";
 import TRPCProvider from "@/app/utils/TRPCProvider";
 import { LoadingComp } from "./loading";
 import { nextDynamic } from "@/utils/dynamic";
+import Footer from "@/components/navigation/footer";
+import { ThemeProvider } from "@/components/theme-provider";
+
+import ResponsiveNav from "@/components/navigation/ResponsiveNav";
 
 const PushComp = nextDynamic(
   // @ts-expect-error: None
@@ -44,7 +47,7 @@ export const metadata: Metadata = {
     },
   ],
   icons: [
-    { rel: "apple-touch-icon", url: "icons/icon-128x128.png" },
+    { rel: "apple-touch-icon", url: "icons/logo_sqr-128.png" },
     { rel: "icon", url: "icons/logo_sqr-128.png" },
   ],
 };
@@ -52,23 +55,33 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#2e2e2e" }],
   viewportFit: "auto",
-  // colorScheme: "dark",
+  colorScheme: "dark",
 };
 
 console.log(process.env.NODE_ENV);
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased pb-0`}
       >
         <TRPCProvider>
-          <PushComp />
           <StoreProvider>
             <SocketProvider>
-              <NavBar />
-              <div className="pl-10 pr-10 ">{children}</div>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <ResponsiveNav />
+                <div className="main_holder" style={{ minHeight: "100vh" }}>
+                  <div className="pl-10 pr-1">{children}</div>
+                  <PushComp />
+                </div>
+                <Footer />
+              </ThemeProvider>
             </SocketProvider>
           </StoreProvider>
         </TRPCProvider>

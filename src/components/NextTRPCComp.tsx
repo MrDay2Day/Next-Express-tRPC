@@ -1,39 +1,54 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { trpcNextAPIClient } from "../app/_trpc/client";
 import { Button } from "./ui/button";
 
-export default function NextTRPCComp() {
+export default function NextTRPCComp(props: { children: React.ReactNode }) {
   const hello = trpcNextAPIClient.hello.useQuery({ name: "Mr. Day2Day" });
   const addNumbersMutation = trpcNextAPIClient.addNumbers.useMutation();
+
+  const [numbers, setNumbers] = useState({ num1: 0, num2: 0 });
+  const [result, setResult] = useState(0);
 
   if (!hello.data) return <div>Loading...</div>;
 
   return (
     <div className="pv-10 mb-5 border-2 border-sky-400">
       <h1>{"Client Component - Next tRPC | trpcNextAPIClient -> Component"}</h1>
+      {props.children}
       <h1>{hello.data.greeting || "Umm..."}</h1>
+      <input
+        className={"border-2 rounded-sm border-yellow-700 ml-5 mt-5"}
+        type={"number"}
+        value={numbers.num1}
+        placeholder={"Number 1"}
+        onChange={(e) => setNumbers({ ...numbers, num1: +e.target.value })}
+      />
+      <br />
+      <input
+        className={"border-2 rounded-sm border-yellow-700 ml-5 mt-5"}
+        type={"number"}
+        value={numbers.num2}
+        placeholder={"Number 2"}
+        onChange={(e) => setNumbers({ ...numbers, num2: +e.target.value })}
+      />
+      <h1 className="m-5 font-bold">{result}</h1>
       <Button
-        className="bg-purple-500"
+        className="bg-purple-500 ml-5 my-5"
         onClick={() => {
           try {
-            addNumbersMutation.mutate(
-              {
-                num1: 5,
-                num2: 10,
+            addNumbersMutation.mutate(numbers, {
+              onSuccess: (data, variables) => {
+                console.log("onSuccess", { data, variables });
+                setResult(data.result);
               },
-              {
-                onSuccess: (data, variables) => {
-                  console.log("onSuccess", { data, variables });
-                },
-                onError(error, variables, context) {
-                  console.log("onError", { error, variables, context });
-                },
-                // onSettled(data, error, variables, context) {
-                //   console.log("onSettled", { data, error, variables, context });
-                // },
-              }
-            );
+              onError(error, variables, context) {
+                console.log("onError", { error, variables, context });
+              },
+              onSettled(data, error, variables, context) {
+                console.log("onSettled", { data, error, variables, context });
+              },
+            });
           } catch (error: unknown) {
             console.log({ error });
           }

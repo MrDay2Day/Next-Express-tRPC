@@ -13,10 +13,22 @@ export async function set_cookie_get() {
     }
   );
 
-  const cookie = await setSignedCookie(response, "user-prefs", {
-    theme: "dark",
-    language: "en",
-  });
+  const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax" as const,
+    maxAge: 60 * 60 * 24 * 7, // 1 week
+    path: "/",
+  };
+
+  const cookie = await setSignedCookie(
+    "user-prefs",
+    {
+      theme: "dark",
+      language: "en",
+    },
+    cookieOptions
+  );
 
   response.headers.set("Set-Cookie", cookie);
 

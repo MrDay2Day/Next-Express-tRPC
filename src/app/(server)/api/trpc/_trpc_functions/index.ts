@@ -1,6 +1,10 @@
 import "server-only";
 
-import { publicProcedure_next, router_next } from "../../trpc";
+import {
+  createCallerFactory_next,
+  publicProcedure_next,
+  router_next,
+} from "../../trpc";
 import { z } from "zod";
 import { BooksManagement } from "./books/books";
 
@@ -31,8 +35,10 @@ export const appRouter_next = router_next({
     .mutation(({ input }) => {
       console.log({ input });
       const result = input.num1 + input.num2;
-      return result;
+      return { result, date: new Date() };
     }),
 });
 
+// Caller to use NextAPI tRPC functions on the server
+export const createCaller_next = createCallerFactory_next(appRouter_next);
 export type AppRouter_next = typeof appRouter_next;

@@ -1,13 +1,14 @@
 "use client";
 
 import { trpcNextAPIClient } from "@/app/_trpc/client";
-import React from "react";
+import React, { PropsWithChildren } from "react";
 
-export default function TodoList() {
+export default function TodoList({ children }: PropsWithChildren) {
   const getTodos = trpcNextAPIClient.getTodos.useQuery();
   return (
     <div className="pv-10 mb-5 border-2 border-purple-600">
       <h1>{"Client Component - ToDoList | trpcNextAPIClient -> Component"}</h1>
+      <>{children}</>
       <br />
       <div>
         {getTodos.data?.map((x, i) => (
