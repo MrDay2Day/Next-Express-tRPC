@@ -58,7 +58,7 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
-console.log(process.env.NODE_ENV);
+console.log("NODE ENVIRONMENT - " + process.env.NODE_ENV);
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

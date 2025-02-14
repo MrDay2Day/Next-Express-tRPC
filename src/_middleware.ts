@@ -1,5 +1,3 @@
-// import "server-only";
-"user server";
 import { NextResponse, NextRequest } from "next/server";
 
 // -->> Redirect Method 1

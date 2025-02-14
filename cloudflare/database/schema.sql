@@ -1,14 +1,14 @@
-DROP TABLE IF EXISTS Customers;
+-- DROP TABLE IF EXISTS Customers;
 
-CREATE TABLE Customers
+CREATE TABLE
+IF NOT EXISTS Customers
 (
     CustomerId INTEGER PRIMARY KEY,
     CompanyName TEXT,
     ContactName TEXT
 );
 
-INSERT 
-INTO Customers
+INSERT INTO Customers
     (CustomerID, CompanyName, ContactName)
 VALUES
     (1, 'Alfreds Futterkiste', 'Maria Anders'),
