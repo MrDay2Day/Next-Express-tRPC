@@ -11,7 +11,7 @@ type SinglePageLinkType = {
   description?: string;
 };
 
-type LinkOptionType = SinglePageLinkType & {
+export type LinkOptionType = SinglePageLinkType & {
   linkChildren: (BannerLinkType | SinglePageLinkType)[];
 };
 
@@ -57,13 +57,13 @@ LinkOptions.push({
 });
 
 const sideOptions: SinglePageLinkType & {
-  linkChildren: (BannerLinkType | SinglePageLinkType)[];
+  linkChildren: SinglePageLinkType[];
 } = {
   name: "Settings",
   href: "",
   linkChildren: [
     { name: "Home", href: "/" },
-    { name: "Home", href: "/" },
+    { name: "Map", href: "/map" },
   ],
 };
 

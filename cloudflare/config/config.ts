@@ -1,0 +1,14 @@
+export async function generateDatabase(): Promise<D1Database | string> {
+  try {
+    if (process.env && process.env.NEXTJS_ENV == "production") {
+      return process.env.D1_DB as string;
+    }
+  } catch (error) {
+    console.log({ error });
+  }
+
+  const { getCloudflareContext } = await import("@opennextjs/cloudflare");
+  const { env } = await getCloudflareContext();
+  const DB = env.D1_DB as D1Database;
+  return DB;
+}

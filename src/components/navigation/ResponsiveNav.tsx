@@ -23,27 +23,38 @@ import {
   NavigationMenuTrigger,
   NavigationMenuContent,
 } from "@/components/ui/navigation-menu";
-import React, { JSX, SVGProps } from "react";
+import React, {
+  JSX,
+  SVGProps,
+  // useState
+} from "react";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ModeToggle } from "../ModeToggle";
+
+import { Input } from "../ui/input";
+import { LinkOptions, LinkOptionType, sideOptions } from "./pages";
+import Image from "next/image";
+import { Settings } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import { Input } from "../ui/input";
-import { LinkOptions, sideOptions } from "./pages";
-import Image from "next/image";
-import { Settings } from "lucide-react";
+// import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 export default function ResponsiveNav() {
   const companyName = "Company Name";
   const singleLinkCSS =
     "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50";
   return (
-    <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 sticky top-0 bg-inherit">
-      {/* Compact Navigation Menu */}
+    <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 sticky top-0 bg-inherit shadow-md ">
+      {/* 
+      
+        Compact Navigation Menu 
+      
+      */}
+
       <Sheet>
         <div className="flex w-full items-center justify-between xl:hidden">
           <Link href="/" prefetch={false}>
@@ -65,7 +76,7 @@ export default function ResponsiveNav() {
             </Button>
           </SheetTrigger>
         </div>
-        <SheetContent side="right">
+        <SheetContent side="right" className="overflow-y-auto">
           <VisuallyHidden>
             <SheetHeader>
               <SheetTitle>Sidebar</SheetTitle>
@@ -89,59 +100,10 @@ export default function ResponsiveNav() {
           <div className="flex w-full align-middle justify-center">
             <ModeToggle />
           </div>
-          <div className="grid gap-2 py-6">
+          <div className="grid gap-2 py-6 ">
             {LinkOptions.map((linkOp, index_0) => {
               if (linkOp.linkChildren.length > 0) {
-                return (
-                  <Collapsible
-                    key={`level_1_${index_0}`}
-                    className="grid gap-4 py-2"
-                  >
-                    <CollapsibleTrigger className="flex w-full items-center text-lg font-semibold [&[data-state=open]>svg]:rotate-90">
-                      {linkOp.name}{" "}
-                      <ChevronRightIcon className="ml-auto h-5 w-5 transition-all" />
-                    </CollapsibleTrigger>
-                    <CollapsibleContent>
-                      <div className="-mx-6 grid gap-6 bg-muted p-6">
-                        {linkOp.linkChildren.map((linkOp2, index_1) => {
-                          if ("title" in linkOp2) {
-                            return (
-                              <Link
-                                key={`level_2_${linkOp2.title}_${index_0}_${index_1}`}
-                                href="#"
-                                className="group grid h-auto w-full justify-start gap-1"
-                                prefetch={false}
-                              >
-                                <div className="text-sm font-medium leading-none group-hover:underline">
-                                  {linkOp2.title}
-                                </div>
-                                <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                                  {linkOp2.overview}
-                                </div>
-                              </Link>
-                            );
-                          } else {
-                            return (
-                              <Link
-                                key={`level_2_${linkOp2.name}_${index_0}_${index_1}`}
-                                href="#"
-                                className="group grid h-auto w-full justify-start gap-1"
-                                prefetch={false}
-                              >
-                                <div className="text-sm font-medium leading-none group-hover:underline">
-                                  {linkOp2.name}
-                                </div>
-                                <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                                  {linkOp2.description}
-                                </div>
-                              </Link>
-                            );
-                          }
-                        })}
-                      </div>
-                    </CollapsibleContent>
-                  </Collapsible>
-                );
+                return SheetOptions(linkOp, index_0);
               } else {
                 return (
                   <Link
@@ -155,12 +117,18 @@ export default function ResponsiveNav() {
                 );
               }
             })}
-            <br />
+            <div className="border-t border-gray-200 dark:border-gray-700 my-4" />
+            {SheetOptions(sideOptions, 1)}
           </div>
         </SheetContent>
       </Sheet>
 
-      {/* Expanded Navigation Menu */}
+      {/* 
+      
+        Expanded Navigation Menu 
+      
+      */}
+
       <div className="w-full shrink-0 items-center hidden xl:flex ">
         <Link
           href="/"
@@ -244,15 +212,12 @@ export default function ResponsiveNav() {
             })}
           </NavigationMenuList>
         </NavigationMenu>
+        {/* 
+      
+        Right Aligned Navigation Menu 
+      
+      */}
         <div style={{ flexGrow: 1, display: "flex", justifyContent: "end" }}>
-          {/* <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button className="mr-4" variant="outline" size="icon">
-                <SearchIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-                <span className="sr-only">Search</span>
-              </Button>
-            </DropdownMenuTrigger> */}
-          {/* <DropdownMenuContent className="w-[300px] p-4"> */}
           <div className="relative mr-4">
             <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
             <Input
@@ -261,28 +226,115 @@ export default function ResponsiveNav() {
               className="pl-8 w-full"
             />
           </div>
-          {/* </DropdownMenuContent>
-          </DropdownMenu> */}
           <ModeToggle />
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon" className="ml-4">
-                <Settings className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                <Settings className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                <span className="sr-only">Select Settings</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => {}}>Light</DropdownMenuItem>
-              <DropdownMenuItem onClick={() => {}}>Dark</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
+        {RightAlignedMenu()}
       </div>
     </header>
   );
 }
+
+const SheetOptions = (linkOp: LinkOptionType, index_0: number) => {
+  return (
+    <Collapsible key={`level_1_${index_0}`} className="grid gap-4 py-2">
+      <CollapsibleTrigger className="flex w-full items-center text-lg font-semibold [&[data-state=open]>svg]:rotate-90">
+        {linkOp.name}{" "}
+        <ChevronRightIcon className="ml-auto h-5 w-5 transition-all" />
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <div className="-mx-6 grid gap-6 bg-muted p-6">
+          {linkOp.linkChildren.map((linkOp2, index_1) => {
+            if ("title" in linkOp2) {
+              return (
+                <Link
+                  key={`level_2_${linkOp2.title}_${index_0}_${index_1}`}
+                  href="#"
+                  className="group grid h-auto w-full justify-start gap-1"
+                  prefetch={false}
+                >
+                  <div className="text-sm font-medium leading-none group-hover:underline">
+                    {linkOp2.title}
+                  </div>
+                  <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    {linkOp2.overview}
+                  </div>
+                </Link>
+              );
+            } else {
+              return (
+                <Link
+                  key={`level_2_${linkOp2.name}_${index_0}_${index_1}`}
+                  href="#"
+                  className="group grid h-auto w-full justify-start gap-1"
+                  prefetch={false}
+                >
+                  <div className="text-sm font-medium leading-none group-hover:underline">
+                    {linkOp2.name}
+                  </div>
+                  <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    {linkOp2.description}
+                  </div>
+                </Link>
+              );
+            }
+          })}
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+};
+
+const RightAlignedMenu = () => {
+  //   const [isOpen, setIsOpen] = useState(false);
+  //   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+
+  //   const handleMouseEnter = () => {
+  //     if (timeoutId) clearTimeout(timeoutId);
+  //     setIsOpen(true);
+  //   };
+
+  //   const handleMouseLeave = () => {
+  //     const id = setTimeout(() => {
+  //       setIsOpen(false);
+  //     }, 300); // Small delay before closing to make it feel smoother
+  //     setTimeoutId(id);
+  //   };
+
+  return (
+    <div
+      className="ml-auto flex gap-2"
+      //   onMouseEnter={handleMouseEnter}
+      //   onMouseLeave={handleMouseLeave}
+    >
+      <DropdownMenu
+      //
+      //   open={isOpen}
+      >
+        <DropdownMenuTrigger asChild>
+          <Button variant={"outline"} className="ml-4">
+            <div className="relative flex justify-center align-middle mr-2">
+              <Settings className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Settings className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            </div>
+            {sideOptions.name}
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          align="end"
+          className="rounded-md border bg-popover text-popover-foreground shadow-lg mt-1 min-w-[200px] grid gap-3 p-6"
+        >
+          {sideOptions.linkChildren.map((item, index) => (
+            <Link href={item.href} key={index}>
+              <DropdownMenuItem className="rounded-md p-2 justify-end transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                <p className="text-center">{item.name}</p>
+              </DropdownMenuItem>
+            </Link>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+};
 
 function ChevronRightIcon(
   props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>

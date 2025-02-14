@@ -6,7 +6,17 @@
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": ".open-next/assets",
-    "binding": "ASSETS"
+    "binding": "WORKER_ASSETS"
   },
-  "kv_namespaces": []
+  "kv_namespaces": [],
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "D1_DB",
+      "database_name": "prod-d1-demo",
+      "database_id": "61665111-27a5-4085-822e-36c7113b9bcb"
+    }
+  ]
 }

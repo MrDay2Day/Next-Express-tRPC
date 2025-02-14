@@ -34,7 +34,7 @@ export default function ClientPage() {
       );
       if (resErr) throw resErr;
       if (!response || !response.ok) throw new Error("Failed to fetch data");
-      const result = await response.json();
+      const result = (await response.json()) as { valid: boolean; date: Date };
       setData({
         ...result,
         date: new Date(result.date), // Convert string back to Date object
