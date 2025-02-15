@@ -1,4 +1,4 @@
-"use server";
+// "use server";
 import React, { lazy, Suspense } from "react";
 import { LoadingComp } from "../loading";
 import { nextDynamic } from "@/utils/dynamic";
@@ -52,7 +52,7 @@ const Notes = nextDynamic(() => import("../../components/hooks-comps/notes"), {
 //   }
 // }
 
-// export const dynamic = "force-dynamic"; // To ensure this page is rerendered on every request
+export const dynamic = "force-dynamic"; // To ensure this page is rerendered on every request
 export default async function Home() {
   /** Express Server Functionality */
   // const nameAgain = await trpcServerSide.UserManagement.getUsers.query();
