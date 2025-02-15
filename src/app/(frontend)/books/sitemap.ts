@@ -1,6 +1,6 @@
 "use server";
 
-import { createCaller_next } from "@/app/(server)/api/trpc/_trpc_functions";
+import { createCaller_next } from "@/app/(server)/api/trpc/_trpc_functions/main";
 import { BASE_URL } from "../../../../types/constants/general";
 import type { MetadataRoute } from "next";
 

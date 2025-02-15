@@ -25,7 +25,7 @@ export const AuthManagement = router_next({
       );
 
       // Set cookie in respons e headers
-      ctx.res?.setHeader("Set-Cookie", cookieString);
+      ctx.res?.headers.set("Set-Cookie", cookieString);
 
       return {
         valid: true,

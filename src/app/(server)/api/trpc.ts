@@ -3,9 +3,7 @@ import "server-only";
 
 import { initTRPC, inferAsyncReturnType } from "@trpc/server";
 import { ZodError } from "zod";
-// import { NextApiRequest, NextApiResponse } from "next";
-// import { NextRequest, NextResponse } from "next/server";
-import { createNextAPIContext } from "../../../../types/backend/trpc";
+import { createNextAPIContext } from "../../_trpc/config/trpc_api";
 const superjson = require("superjson").default;
 
 type Context = inferAsyncReturnType<typeof createNextAPIContext>;

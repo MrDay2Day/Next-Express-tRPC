@@ -17,15 +17,26 @@ async function verifyToken(token: string) {
 export const authMiddleware_trpc = t.middleware(async ({ ctx, next }) => {
   let token: string | undefined;
 
+  // console.dir(
+  //   {
+  //     ctxHeaders: ctx.req?.headers,
+  //     ctxCookies: ctx.req?.cookies,
+  //   },
+  //   { depth: "*" }
+  // );
+
   // Check authorization header
-  const authHeader = ctx.req?.headers["authorization"];
-  if (authHeader?.startsWith("Bearer ")) {
+  const authHeader = ctx.authHeader || ctx.req?.headers.get("authorization");
+
+  console.log({ authHeader });
+
+  if (authHeader && authHeader?.startsWith("Bearer ")) {
     token = authHeader.substring(7);
   }
 
   // If no auth header, check cookies
   if (!token && ctx.req?.cookies) {
-    token = ctx.req?.cookies["auth-token"];
+    token = ctx.req?.cookies.get("auth-token")?.value;
   }
 
   if (!token) {
@@ -53,7 +64,7 @@ export const authMiddleware_trpc = t.middleware(async ({ ctx, next }) => {
   } catch (error) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
-      message: "Invalid token",
+      message: "Not Authorized!",
       cause: error,
     });
   }

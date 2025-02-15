@@ -1,6 +1,6 @@
 "use server";
 
-import { createCaller_next } from "@/app/(server)/api/trpc/_trpc_functions";
+import { createCaller_next } from "@/app/(server)/api/trpc/_trpc_functions/main";
 import { Book } from "@/app/(server)/api/trpc/_trpc_functions/books/_data";
 import BackButton from "@/components/BackButton";
 import { Metadata } from "next";
@@ -81,7 +81,7 @@ async function fetchBook(id: number) {
     const appCaller_next = createCaller_next({
       req: null,
       res: null,
-      authHeader: undefined,
+      authHeader: "Bearer USER.JWT.ACCESS",
     });
     const result = await appCaller_next.books.fetchBook(+id);
     console.log({ result });

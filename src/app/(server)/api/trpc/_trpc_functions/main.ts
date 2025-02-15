@@ -6,7 +6,8 @@ import {
   router_next,
 } from "../../trpc";
 import { z } from "zod";
-import { BooksManagement } from "./books/books";
+import { BooksManagement } from "./books/main";
+import { CustomerManagement } from "./customers/main";
 
 export const appRouter_next = router_next({
   getTodos: publicProcedure_next.query(async () => {
@@ -23,7 +24,7 @@ export const appRouter_next = router_next({
         theDate: new Date(),
       };
     }),
-
+  customers: CustomerManagement,
   books: BooksManagement,
   addNumbers: publicProcedure_next
     .input(

@@ -1,7 +1,7 @@
-export async function generateDatabase(): Promise<D1Database | string> {
+export async function generateDatabase(): Promise<D1Database> {
   try {
     if (process.env && process.env.NEXTJS_ENV == "production") {
-      return process.env.D1_DB as string;
+      return process.env.D1_DB as unknown as D1Database;
     }
   } catch (error) {
     console.log({ error });

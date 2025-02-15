@@ -48,7 +48,7 @@ export default function ResponsiveNav() {
   const singleLinkCSS =
     "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50";
   return (
-    <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 sticky top-0 bg-inherit shadow-md ">
+    <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 sticky top-0 bg-[--background] shadow-md ">
       {/* 
       
         Compact Navigation Menu 
@@ -138,7 +138,7 @@ export default function ResponsiveNav() {
           <LogoSVGIcon className="h-6 w-6" />
           <h1 className="ml-4 font-bold">{companyName}</h1>
         </Link>
-        <NavigationMenu className="hidden xl:flex">
+        <NavigationMenu className="hidden xl:flex ">
           <NavigationMenuList>
             {LinkOptions.map((linkOp, index_0) => {
               if (linkOp.linkChildren.length > 0) {
@@ -248,7 +248,7 @@ const SheetOptions = (linkOp: LinkOptionType, index_0: number) => {
               return (
                 <Link
                   key={`level_2_${linkOp2.title}_${index_0}_${index_1}`}
-                  href="#"
+                  href={linkOp2.hrefLink}
                   className="group grid h-auto w-full justify-start gap-1"
                   prefetch={false}
                 >
@@ -264,7 +264,7 @@ const SheetOptions = (linkOp: LinkOptionType, index_0: number) => {
               return (
                 <Link
                   key={`level_2_${linkOp2.name}_${index_0}_${index_1}`}
-                  href="#"
+                  href={linkOp2.href}
                   className="group grid h-auto w-full justify-start gap-1"
                   prefetch={false}
                 >
@@ -311,12 +311,12 @@ const RightAlignedMenu = () => {
       //   open={isOpen}
       >
         <DropdownMenuTrigger asChild>
-          <Button variant={"outline"} className="ml-4">
-            <div className="relative flex justify-center align-middle mr-2">
+          <Button variant={"outline"} size="icon" className="ml-4">
+            <div className="relative flex justify-center align-middle">
               <Settings className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
               <Settings className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             </div>
-            {sideOptions.name}
+            {/* {sideOptions.name} */}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent

@@ -5,7 +5,7 @@ import { generateDatabase } from "../../../../../cloudflare/database/config/conf
 
 async function handle_get() {
   try {
-    const DB = (await generateDatabase()) as D1Database;
+    const DB = await generateDatabase();
     console.log({ DB });
     const { results } = await DB.prepare("SELECT * FROM Customers").all();
     console.log({ results });

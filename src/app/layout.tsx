@@ -7,21 +7,8 @@ import "./globals.css";
 import StoreProvider from "@/lib/store/StoreProvider";
 import { SocketProvider } from "@/lib/socket/SocketProvider";
 import TRPCProvider from "@/app/utils/TRPCProvider";
-import { LoadingComp } from "./loading";
-import { nextDynamic } from "@/utils/dynamic";
-import Footer from "@/components/navigation/footer";
+
 import { ThemeProvider } from "@/components/theme-provider";
-
-import ResponsiveNav from "@/components/navigation/ResponsiveNav";
-
-const PushComp = nextDynamic(
-  // @ts-expect-error: None
-  () => import("./utils/PushRegister"),
-  {
-    loading: () => <LoadingComp />, // Optional custom fallback
-    ssr: true, // Optional: Disable server-side rendering for this component
-  }
-);
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -64,7 +51,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased pb-0`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased pb-0 bg-[--background]`}
       >
         <TRPCProvider>
           <StoreProvider>
@@ -75,12 +62,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 enableSystem
                 disableTransitionOnChange
               >
-                <ResponsiveNav />
-                <div className="main_holder" style={{ minHeight: "100vh" }}>
-                  <div className="pl-10 pr-1">{children}</div>
-                  <PushComp />
-                </div>
-                <Footer />
+                {children}
               </ThemeProvider>
             </SocketProvider>
           </StoreProvider>
