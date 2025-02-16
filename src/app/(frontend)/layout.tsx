@@ -24,12 +24,12 @@ export default async function Layout({
       <ResponsiveNav />
       {/* <SidebarProvider> */}
       {/* <AppSidebar /> */}
-      <div className="min-h-[100vh] w-full">
+      <div className="min-h-[100vh] w-full p-4">
         {/* <SidebarTrigger className="sticky top-0" /> */}
         <div className="px-10">{children}</div>
         <PushComp />
-        <Footer />
       </div>
+      <Footer />
       <br />
       {/* </SidebarProvider> */}
     </>
