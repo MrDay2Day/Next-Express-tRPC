@@ -4,7 +4,6 @@
   "description": "This TypeScript template provides a robust and well-structured foundation for building modern web applications. It leverages Next.js for frontend development, Express.js for backend APIs, and integrates Socket.IO for real-time communication. The template incorporates tRPC for type-safe data fetching, includes examples of SSR, SSG, and dynamic pages, and features examples of secure cookie management. With a focus on best practices and a modular design, this template streamlines development and enhances code quality, making it an ideal starting point for various web projects.",
   "private": true,
   "scripts": {
-    "ts": "npx ts-node-dev --respawn server.ts",
     "lint": "next lint",
     "schema:local": "npx wrangler d1 execute prod-d1-demo --local --file=./cloudflare/database/schema.sql",
     "schema:cloud": "npx wrangler d1 execute prod-d1-demo --remote --file=./cloudflare/database/schema.sql",
