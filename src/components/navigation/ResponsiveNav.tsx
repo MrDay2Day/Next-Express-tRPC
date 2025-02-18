@@ -32,7 +32,13 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ModeToggle } from "../ModeToggle";
 
 import { Input } from "../ui/input";
-import { LinkOptions, LinkOptionType, sideOptions } from "./pages";
+import {
+  ActionOptionType,
+  LinkOptions,
+  LinkOptionType,
+  sideOptions,
+  SinglePageLinkType,
+} from "./pages";
 import Image from "next/image";
 import { Settings } from "lucide-react";
 import {
@@ -55,7 +61,7 @@ export default function ResponsiveNav() {
       
       */}
 
-      <Sheet>
+      <Sheet modal>
         <div className="flex w-full items-center justify-between xl:hidden">
           <Link href="/" prefetch={false}>
             <LogoSVGIcon className="h-6 w-6" />
@@ -121,7 +127,7 @@ export default function ResponsiveNav() {
               }
             })}
             <div className="border-t border-gray-200 dark:border-gray-700 my-4" />
-            {SheetOptions(sideOptions, 1)}
+            {SheetOptions(sideOptions, LinkOptions.length)}
           </div>
         </SheetContent>
       </Sheet>
@@ -170,7 +176,7 @@ export default function ResponsiveNav() {
                                         alt={linkOp2.overview}
                                         width={200}
                                         height={200}
-                                        //   style={{ width: "100%" }}
+                                        className="object-cover w-full rounded-md shadow-md"
                                       />
                                     )}
                                     <div className="mb-2 mt-4 text-lg font-medium">
@@ -237,7 +243,14 @@ export default function ResponsiveNav() {
   );
 }
 
-const SheetOptions = (linkOp: LinkOptionType, index_0: number) => {
+const SheetOptions = (
+  linkOp:
+    | LinkOptionType
+    | (SinglePageLinkType & {
+        linkChildren: (SinglePageLinkType | ActionOptionType)[];
+      }),
+  index_0: number = 1
+) => {
   return (
     <Collapsible key={`level_1_${index_0}`} className="grid gap-4 py-2">
       <CollapsibleTrigger className="flex w-full items-center text-lg font-semibold [&[data-state=open]>svg]:rotate-90">
@@ -247,23 +260,25 @@ const SheetOptions = (linkOp: LinkOptionType, index_0: number) => {
       <CollapsibleContent>
         <div className="-mx-6 grid gap-6 bg-muted p-6">
           {linkOp.linkChildren.map((linkOp2, index_1) => {
-            if ("title" in linkOp2) {
+            if ("title" in linkOp2 && "overview" in linkOp2) {
               return (
                 <Link
                   key={`level_2_${linkOp2.title}_${index_0}_${index_1}`}
-                  href={linkOp2.hrefLink}
+                  href={linkOp2.title}
                   className="group grid h-auto w-full justify-start gap-1"
                   prefetch={false}
                 >
                   <div className="text-sm font-medium leading-none group-hover:underline">
                     {linkOp2.title}
                   </div>
-                  <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    {linkOp2.overview}
-                  </div>
+                  {linkOp2.overview && (
+                    <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                      {linkOp2.overview}
+                    </div>
+                  )}
                 </Link>
               );
-            } else {
+            } else if ("href" in linkOp2 && "name" in linkOp2) {
               return (
                 <Link
                   key={`level_2_${linkOp2.name}_${index_0}_${index_1}`}
@@ -279,6 +294,23 @@ const SheetOptions = (linkOp: LinkOptionType, index_0: number) => {
                   </div>
                 </Link>
               );
+            } else if ("action" in linkOp2) {
+              return (
+                <div
+                  key={`level_2_${linkOp2.title}_${index_0}_${index_1}`}
+                  className="group grid h-auto w-full justify-start gap-1 cursor-pointer"
+                  onClick={linkOp2.action}
+                >
+                  <div className="text-sm font-medium leading-none group-hover:underline">
+                    {linkOp2.title}
+                  </div>
+                  {linkOp2.description && (
+                    <div className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                      {linkOp2.description}
+                    </div>
+                  )}
+                </div>
+              );
             }
           })}
         </div>
@@ -288,31 +320,9 @@ const SheetOptions = (linkOp: LinkOptionType, index_0: number) => {
 };
 
 const RightAlignedMenu = () => {
-  //   const [isOpen, setIsOpen] = useState(false);
-  //   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-
-  //   const handleMouseEnter = () => {
-  //     if (timeoutId) clearTimeout(timeoutId);
-  //     setIsOpen(true);
-  //   };
-
-  //   const handleMouseLeave = () => {
-  //     const id = setTimeout(() => {
-  //       setIsOpen(false);
-  //     }, 300); // Small delay before closing to make it feel smoother
-  //     setTimeoutId(id);
-  //   };
-
   return (
-    <div
-      className="ml-auto flex gap-2"
-      //   onMouseEnter={handleMouseEnter}
-      //   onMouseLeave={handleMouseLeave}
-    >
-      <DropdownMenu
-      //
-      //   open={isOpen}
-      >
+    <div className="ml-auto flex gap-2">
+      <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant={"outline"} size="icon" className="ml-4">
             <div className="relative flex justify-center align-middle">
@@ -324,15 +334,42 @@ const RightAlignedMenu = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align="end"
-          className="rounded-md border bg-popover text-popover-foreground shadow-lg mt-1 min-w-[200px] grid gap-3 p-6"
+          className="rounded-md border bg-popover text-popover-foreground shadow-lg mt-1 min-w-[100px] max-w-[300px] grid gap-3 p-6"
         >
-          {sideOptions.linkChildren.map((item, index) => (
-            <Link href={item.href} key={index}>
-              <DropdownMenuItem className="rounded-md p-2 justify-end transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                <p className="text-center">{item.name}</p>
-              </DropdownMenuItem>
-            </Link>
-          ))}
+          {sideOptions.linkChildren.map((item, index) => {
+            {
+              if ("action" in item) {
+                return (
+                  <DropdownMenuItem
+                    key={index}
+                    className="rounded-md p-2 justify-end transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground cursor-pointer"
+                    onClick={item.action}
+                  >
+                    <p className="text-center">{item.title}</p>
+                    {item.description && (
+                      <div className="text-center text-sm leading-snug text-muted-foreground">
+                        {item.description}
+                      </div>
+                    )}
+                  </DropdownMenuItem>
+                );
+              }
+              if ("href" in item) {
+                return (
+                  <Link href={item.href} key={index}>
+                    <DropdownMenuItem className="rounded-md p-2 justify-end transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                      <p className="text-center">{item.name}</p>
+                      {item.description && (
+                        <div className="text-center text-sm leading-snug text-muted-foreground">
+                          {item.description}
+                        </div>
+                      )}
+                    </DropdownMenuItem>
+                  </Link>
+                );
+              }
+            }
+          })}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
