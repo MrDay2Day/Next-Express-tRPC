@@ -21,6 +21,7 @@ export default async function Layout({
 }) {
   return (
     <>
+      <h1 className="block sm:hidden">MOBILE ONLY</h1>
       <ResponsiveNav />
       {/* <SidebarProvider> */}
       {/* <AppSidebar /> */}
