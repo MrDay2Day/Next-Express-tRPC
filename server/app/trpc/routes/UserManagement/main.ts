@@ -1,5 +1,5 @@
 import z from "zod";
-import { publicProcedure, router } from "../config";
+import { publicProcedure, router } from "../../config";
 import { TRPCError } from "@trpc/server";
 
 // Define types for our user data

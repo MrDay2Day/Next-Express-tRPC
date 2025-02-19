@@ -1,7 +1,6 @@
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 import { AppRouter } from "../app/trpc/trpc";
-// @ts-expect-error works
-import { superjsonExport } from "../app/trpc/module";
+import * as SuperJSON from "../../utilities/superjson/dist";
 
 export const trpcClientSide = createTRPCProxyClient<AppRouter>({
   links: [
@@ -15,6 +14,5 @@ export const trpcClientSide = createTRPCProxyClient<AppRouter>({
       },
     }),
   ],
-  // @ts-expect-error works
-  transformer: superjsonExport,
+  transformer: SuperJSON,
 });

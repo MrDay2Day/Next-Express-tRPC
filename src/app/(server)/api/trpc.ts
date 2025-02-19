@@ -4,12 +4,13 @@ import "server-only";
 import { initTRPC, inferAsyncReturnType } from "@trpc/server";
 import { ZodError } from "zod";
 import { createNextAPIContext } from "../../_trpc/config/trpc_api";
-const superjson = require("superjson").default;
+
+import * as SuperJSON from "../../../../utilities/superjson/dist";
 
 type Context = inferAsyncReturnType<typeof createNextAPIContext>;
 
 export const t = initTRPC.context<Context>().create({
-  transformer: superjson,
+  transformer: SuperJSON,
   errorFormatter({ shape, error }) {
     return {
       ...shape,

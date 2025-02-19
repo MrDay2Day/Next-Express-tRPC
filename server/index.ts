@@ -8,7 +8,6 @@ import routes from "./routes";
 import { serverLogs } from "./middleware/modules";
 import dotenv from "dotenv";
 import { catchErrorPromiseFunc } from "../src/utils/catchError";
-import { loadSuperjson } from "./app/trpc/module";
 
 dotenv.config();
 
@@ -20,7 +19,6 @@ dotenv.config();
 
 async function startNextExpressServer() {
   try {
-    await loadSuperjson();
     const app = next({
       dev: process.env.NODE_ENV !== "production",
       turbo: true,

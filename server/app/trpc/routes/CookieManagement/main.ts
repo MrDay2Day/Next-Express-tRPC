@@ -1,5 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import { publicProcedure, router } from "../config";
+import { publicProcedure, router } from "../../config";
 
 const CookieManagement = router({
   // Set cookies

@@ -3,9 +3,9 @@
  */
 
 import { callerFactory, router } from "./config";
-import UserManagement from "./routes/userManagement";
-import CookieManagement from "./routes/cookieManagement";
-import PushNotifications from "./routes/notifications";
+import CookieManagement from "./routes/CookieManagement/main";
+import PushNotifications from "./routes/NotificationManagement/main";
+import UserManagement from "./routes/UserManagement/main";
 
 // Create the router with two routes
 export const appRouter = router({

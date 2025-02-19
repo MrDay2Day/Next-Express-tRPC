@@ -2,23 +2,18 @@
  * tRPC Configure
  */
 import { initTRPC } from "@trpc/server";
-import * as trpcExpress from "@trpc/server/adapters/express";
+// import * as trpcExpress from "@trpc/server/adapters/express";
 import { EventEmitter } from "events";
 
 import { ZodError } from "zod";
-// @ts-expect-error works
-import { superjsonExport } from "./module";
-
-// const superjson = require("superjson").default;
+import * as SuperJSON from "../../../utilities/superjson/dist";
+import { ExpressCallerTypes } from "./utilities/trpc_types";
 
 // Create EventEmitter instance
 export const ee = new EventEmitter();
 
-export const createContext = ({
-  req,
-  res,
-}: trpcExpress.CreateExpressContextOptions) => {
-  return { req, res };
+export const createContext = ({ req, res, authHeader }: ExpressCallerTypes) => {
+  return { req, res, authHeader };
 };
 
 export type Context = Awaited<ReturnType<typeof createContext>>;
@@ -26,8 +21,7 @@ export type Context = Awaited<ReturnType<typeof createContext>>;
 // Initialize tRPC
 // const t = initTRPC.context<Context>().create({
 const t = initTRPC.create({
-  // @ts-expect-error works
-  transformer: superjsonExport,
+  transformer: SuperJSON,
   errorFormatter({ shape, error }) {
     return {
       ...shape,

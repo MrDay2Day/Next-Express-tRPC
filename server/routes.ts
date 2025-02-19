@@ -1,4 +1,5 @@
-import express, { Request, Response } from "express";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import express, { NextFunction, Request, Response } from "express";
 
 import ServerSideEvent from "./app/events/eventRoute";
 import CookieWorker from "./app/utils/cookieWorker";

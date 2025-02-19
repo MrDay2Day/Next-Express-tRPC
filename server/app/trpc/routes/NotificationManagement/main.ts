@@ -1,7 +1,7 @@
 import webpush from "web-push";
 import z from "zod";
-import { publicProcedure, router } from "../config";
-import { notifyCount, subscriptions, tally } from "../../push/subscriptions";
+import { publicProcedure, router } from "../../config";
+import { notifyCount, subscriptions, tally } from "../../../push/subscriptions";
 
 interface NotificationPayload {
   title: string;
