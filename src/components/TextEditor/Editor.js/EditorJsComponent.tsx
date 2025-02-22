@@ -38,7 +38,7 @@ function EditorJsComponent(props?: EditorJsType) {
     try {
       if (editorCore.current) {
         const savedData = await editorCore.current.save();
-        if (props?.updateData) {
+        if (props && !props.viewOnly && props.updateData) {
           props.updateData(savedData);
         }
         console.log("Data saved successfully:", savedData);
@@ -69,8 +69,8 @@ function EditorJsComponent(props?: EditorJsType) {
 
   return (
     <>
-      <>
-        <div className="w-full">
+      <div>
+        <div className="max-w-[900px] mx-auto rounded-3xl shadow-2xl bg-[--background] p-4 m-10">
           <ReactEditorJS
             tools={EDITOR_JS_TOOLS}
             defaultValue={data}
@@ -81,7 +81,7 @@ function EditorJsComponent(props?: EditorJsType) {
             readOnly={props && props.viewOnly ? true : false}
           />
         </div>
-      </>
+      </div>
     </>
   );
 }

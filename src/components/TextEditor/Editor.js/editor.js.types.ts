@@ -22,8 +22,13 @@ export interface ImageUploadResponse {
   };
 }
 
-export type EditorJsType = {
-  viewOnly: boolean;
-  data: undefined | OutputData;
-  updateData?: (data: OutputData) => void;
-};
+export type EditorJsType =
+  | {
+      viewOnly: false;
+      data: undefined | OutputData;
+      updateData?: (data: OutputData) => void;
+    }
+  | {
+      viewOnly: true;
+      data: undefined | OutputData;
+    };

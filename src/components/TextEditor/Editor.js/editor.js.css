@@ -8,38 +8,52 @@
 .inlineToolButton,
 .ce-toolbar__plus,
 .tc-popover,
+.ce-popover__container,
 .tc-popover--opened,
 .ce-toolbar__settings-btn,
+.ce-popover-item__icon,
+.ce-popover-item,
+.ce-popover-items,
+.tc-popover__item-icon,
 .ce-popover__search {
-  background-color: #2b2b2b !important;
-  color: white !important;
+  background-color: var(--background) !important;
+  color: var(--default-text) !important;
 }
 
 .ce-toolbar__plus:hover,
 .ce-toolbar__settings-btn:hover,
 .cdx-loader,
 .cdx-button {
-  color: white !important;
-  background-color: #262626 !important;
+  color: var(--default-text) !important;
+  background-color: var(--background) !important;
 }
 
 .cdx-button:hover {
-  background-color: #2f2f2f !important;
+  background-color: var(--background) !important;
+}
+.ce-popover-item__title,
+.tc-popover__item-label {
+  color: var(--default-text) !important;
+}
+
+.codex-editor__redactor {
+  padding: 0px !important;
 }
 
 .ce-popover,
-.tc-popover__item-label,
-.tc-popover__item-icon,
-.ce-popover-item,
-.ce-popover-item__icon,
-.ce-popover-items,
 .ce-popover-item:hover {
-  --color-background-item-hover: #2f2f2f !important;
-  background-color: #262626 !important;
-  color: white !important;
+  --color-background-item-hover: #212121 !important;
+  background-color: var(--background) !important;
+  color: var(--default-text-hover) !important;
   border: none !important;
 }
 
+.ce-popover-item:hover,
 .tc-cell--selected {
-  color: var(--background) !important;
+  color: var(--default-text-hover) !important;
+  background-color: #747474 !important;
+}
+
+.tc-table {
+  border-left: 1px solid var(--default-text);
 }
