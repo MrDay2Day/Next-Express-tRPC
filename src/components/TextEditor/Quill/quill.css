@@ -1,0 +1,10 @@
+.ql-editor {
+  min-height: 500px;
+  width: 100%;
+  border: none;
+}
+
+.ql-container {
+  border: none !important;
+  width: 100%;
+}

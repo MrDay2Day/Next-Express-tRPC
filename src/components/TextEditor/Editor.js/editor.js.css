@@ -1,0 +1,45 @@
+.ce-block__content,
+.ce-block {
+  width: 100% !important;
+}
+
+.cdx-block,
+.ce-header,
+.inlineToolButton,
+.ce-toolbar__plus,
+.tc-popover,
+.tc-popover--opened,
+.ce-toolbar__settings-btn,
+.ce-popover__search {
+  background-color: #2b2b2b !important;
+  color: white !important;
+}
+
+.ce-toolbar__plus:hover,
+.ce-toolbar__settings-btn:hover,
+.cdx-loader,
+.cdx-button {
+  color: white !important;
+  background-color: #262626 !important;
+}
+
+.cdx-button:hover {
+  background-color: #2f2f2f !important;
+}
+
+.ce-popover,
+.tc-popover__item-label,
+.tc-popover__item-icon,
+.ce-popover-item,
+.ce-popover-item__icon,
+.ce-popover-items,
+.ce-popover-item:hover {
+  --color-background-item-hover: #2f2f2f !important;
+  background-color: #262626 !important;
+  color: white !important;
+  border: none !important;
+}
+
+.tc-cell--selected {
+  color: var(--background) !important;
+}

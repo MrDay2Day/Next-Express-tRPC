@@ -54,7 +54,7 @@ export default function ResponsiveNav() {
   const singleLinkCSS =
     "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50";
   return (
-    <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 sticky top-0 bg-[--background] shadow-md ">
+    <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 sticky top-0 bg-[--background] shadow-md z-50">
       {/* 
       
         Compact Navigation Menu 
@@ -145,7 +145,7 @@ export default function ResponsiveNav() {
           prefetch={false}
         >
           <LogoSVGIcon className="h-6 w-6" />
-          <h1 className="ml-4 font-bold">{companyName}</h1>
+          <p className="ml-4 font-bold">{companyName}</p>
         </Link>
         <NavigationMenu className="hidden xl:flex ">
           <NavigationMenuList>
