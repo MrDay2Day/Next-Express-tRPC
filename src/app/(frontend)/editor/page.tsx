@@ -40,7 +40,7 @@ function SimpleEditor() {
     <main className="container mx-auto w-full">
       <h2>Editor.Js</h2>
       <p>Exports to JSON blocks with images uploaded to server.</p>
-      <Button className="my-4" onClick={() => setReadOnly(!readOnly)}>{`${
+      <Button className="my-4 w-48" onClick={() => setReadOnly(!readOnly)}>{`${
         readOnly ? "Disable" : "Enable"
       } Read Only`}</Button>
 
