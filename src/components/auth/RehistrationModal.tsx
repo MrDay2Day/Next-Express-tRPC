@@ -112,6 +112,7 @@ export default function RegisterModal({
                 Name
               </label>
               <Input
+                className="border-[1px] border-slate-500"
                 id="name"
                 name="name"
                 placeholder="John Doe"
@@ -125,6 +126,7 @@ export default function RegisterModal({
                 Email
               </label>
               <Input
+                className="border-[1px] border-slate-500"
                 id="email"
                 name="email"
                 type="email"
@@ -139,6 +141,7 @@ export default function RegisterModal({
                 Password
               </label>
               <Input
+                className="border-[1px] border-slate-500"
                 id="password"
                 name="password"
                 type="password"
@@ -152,6 +155,7 @@ export default function RegisterModal({
                 Confirm Password
               </label>
               <Input
+                className="border-[1px] border-slate-500"
                 id="confirmPassword"
                 name="confirmPassword"
                 type="password"

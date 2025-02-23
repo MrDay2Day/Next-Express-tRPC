@@ -3,12 +3,14 @@ export type BannerLinkType = {
   title: string;
   overview: string;
   hrefLink: string;
+  auth: boolean;
 };
 
 export type SinglePageLinkType = {
   name: string;
   href: string;
   description?: string;
+  auth: boolean;
 };
 
 export type LinkOptionType = SinglePageLinkType & {
@@ -28,10 +30,11 @@ const LinkOptions: LinkOptionType[] = [];
  *
  */
 
-LinkOptions.push({ name: "Home", href: "/", linkChildren: [] });
+LinkOptions.push({ name: "Home", href: "/", auth: false, linkChildren: [] });
 LinkOptions.push({
   name: "Getting Started",
   href: "#",
+  auth: false,
   linkChildren: [
     {
       title: "Check This out",
@@ -40,19 +43,22 @@ LinkOptions.push({
       overview:
         "This is just a sample overview for the link in the navbar to help users get an understanding of what is being offered here",
       hrefLink: "/",
+      auth: false,
     },
     {
       name: "Place",
       href: "/place",
       description:
         "This is a link to server component that has a client component lazy load in.",
+      auth: false,
     },
-    { name: "Client Page", href: "/client-page" },
+    { name: "Client Page", href: "/client-page", auth: true },
     {
       name: "State Page",
       href: "/hook-page",
       description:
         "This is just a short description for the state page which shows example of app wide state management using redux toolkit.",
+      auth: false,
     },
     {
       title: "Documents",
@@ -60,24 +66,37 @@ LinkOptions.push({
         "https://di-uploads-pod14.dealerinspire.com/hondaeastcincy/uploads/2024/07/Civic-Sedan-Lineup-2407.webp",
       hrefLink: "/docs",
       overview: "Nothing much to say here just a description for the link.",
+      auth: true,
     },
   ],
 });
-LinkOptions.push({ name: "Place", href: "/place", linkChildren: [] });
-LinkOptions.push({ name: "Map", href: "/map", linkChildren: [] });
-LinkOptions.push({ name: "Books", href: "/books", linkChildren: [] });
+LinkOptions.push({
+  name: "Place",
+  href: "/place",
+  linkChildren: [],
+  auth: true,
+});
+LinkOptions.push({ name: "Map", href: "/map", linkChildren: [], auth: true });
+LinkOptions.push({
+  name: "Books",
+  href: "/books",
+  linkChildren: [],
+  auth: true,
+});
 LinkOptions.push({
   name: "Options",
+  auth: true,
   href: "#",
-  linkChildren: [{ name: "Editor", href: "/editor" }],
+  linkChildren: [{ name: "Editor", href: "/editor", auth: true }],
 });
 LinkOptions.push({
   name: "Others",
   href: "#",
+  auth: false,
   linkChildren: [
-    { name: "Client Page", href: "/client-page" },
-    { name: "State Page", href: "/hook-page" },
-    { name: "Documents", href: "/docs" },
+    { name: "Client Page", href: "/client-page", auth: false },
+    { name: "State Page", href: "/hook-page", auth: true },
+    { name: "Documents", href: "/docs", auth: true },
   ],
 });
 
@@ -91,7 +110,8 @@ export type ActionOptionType = {
   title: string;
   description?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  action: (x?: any) => any;
+  action: (x?: any) => void;
+  auth: boolean;
 };
 
 const sideOptions: SinglePageLinkType & {
@@ -99,14 +119,16 @@ const sideOptions: SinglePageLinkType & {
 } = {
   name: "Settings",
   href: "",
+  auth: false,
   linkChildren: [
-    { name: "Login", href: "/login" },
-    { name: "Map", href: "/map" },
+    { name: "Login", href: "/login", auth: false },
+    { name: "Map", href: "/map", auth: true },
     {
       title: "Custom Action 1",
       action: () => {
         alert("Custom Action 1");
       },
+      auth: true,
     },
     {
       title: "Custom Action 2",
@@ -114,6 +136,7 @@ const sideOptions: SinglePageLinkType & {
       action: () => {
         alert("Custom Action 2");
       },
+      auth: true,
     },
   ],
 };

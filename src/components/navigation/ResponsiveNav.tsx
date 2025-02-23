@@ -7,6 +7,7 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -47,14 +48,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
+import { useSession } from "next-auth/react";
 // import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 export default function ResponsiveNav() {
+  const { data: session, status } = useSession();
+
+  const auth = status == "authenticated";
+  const loading = status == "loading";
+
   const companyName = "Day2Day Group";
   const singleLinkCSS =
     "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50";
   return (
-    <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 sticky top-0 bg-[--background] shadow-md z-50">
+    <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 sticky top-0 bg-[--background] shadow-md z-50 border-b-[1px] border-b-slate-300">
       {/* 
       
         Compact Navigation Menu 
@@ -96,23 +103,27 @@ export default function ResponsiveNav() {
             <LogoSVGIcon className="h-6 w-6" />
             <span className="sr-only">{companyName}</span>
           </Link>
-          <div className="flex w-full align-middle justify-center py-6">
-            <div className="relative">
-              <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
-              <Input
-                type="search"
-                placeholder="Search..."
-                className="pl-8 w-full"
-              />
+          {auth ? (
+            <div className="flex w-full align-middle justify-center py-6">
+              <div className="relative">
+                <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
+                <Input
+                  type="search"
+                  placeholder="Search..."
+                  className="pl-8 w-full"
+                />
+              </div>
             </div>
-          </div>
+          ) : null}
           <div className="flex w-full align-middle justify-center">
             <ModeToggle />
           </div>
           <div className="grid gap-2 py-6 ">
             {LinkOptions.map((linkOp, index_0) => {
-              if (linkOp.linkChildren.length > 0) {
-                return SheetOptions(linkOp, index_0);
+              if (linkOp.auth && !auth) {
+                return null;
+              } else if (linkOp.linkChildren.length > 0) {
+                return SheetOptions(auth, linkOp, index_0);
               } else {
                 return (
                   <Link
@@ -127,7 +138,7 @@ export default function ResponsiveNav() {
               }
             })}
             <div className="border-t border-gray-200 dark:border-gray-700 my-4" />
-            {SheetOptions(sideOptions, LinkOptions.length)}
+            {SheetOptions(auth, sideOptions, LinkOptions.length)}
           </div>
         </SheetContent>
       </Sheet>
@@ -141,7 +152,7 @@ export default function ResponsiveNav() {
       <div className="w-full shrink-0 items-center hidden xl:flex ">
         <Link
           href="/"
-          className="mr-6 hidden align-middle xl:flex"
+          className="mr-6 hidden align-middle xl:flex items-center"
           prefetch={false}
         >
           <LogoSVGIcon className="h-6 w-6" />
@@ -150,14 +161,18 @@ export default function ResponsiveNav() {
         <NavigationMenu className="hidden xl:flex ">
           <NavigationMenuList>
             {LinkOptions.map((linkOp, index_0) => {
-              if (linkOp.linkChildren.length > 0) {
+              if (linkOp.auth && !auth) {
+                return null;
+              } else if (linkOp.linkChildren.length > 0) {
                 return (
                   <NavigationMenuItem key={`level_1_${index_0}_${linkOp.name}`}>
                     <NavigationMenuTrigger>{linkOp.name}</NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="grid gap-3 p-6 md:w-[600px] lg:w-[800px] lg:grid-cols-[.75fr_1fr]">
                         {linkOp.linkChildren.map((linkOp2, index_1) => {
-                          if ("title" in linkOp2) {
+                          if (linkOp2.auth && !auth) {
+                            return null;
+                          } else if ("title" in linkOp2) {
                             return (
                               <li
                                 key={`level_2_${linkOp2.title}_${index_0}_${index_1}`}
@@ -227,23 +242,26 @@ export default function ResponsiveNav() {
       
       */}
         <div style={{ flexGrow: 1, display: "flex", justifyContent: "end" }}>
-          <div className="relative mr-4">
-            <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
-            <Input
-              type="search"
-              placeholder="Search..."
-              className="pl-8 w-full"
-            />
-          </div>
+          {auth && (
+            <div className="relative mr-4">
+              <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
+              <Input
+                type="search"
+                placeholder="Search..."
+                className="pl-8 w-full"
+              />
+            </div>
+          )}
           <ModeToggle />
         </div>
-        {RightAlignedMenu()}
+        {RightAlignedMenu(auth)}
       </div>
     </header>
   );
 }
 
 const SheetOptions = (
+  auth: boolean,
   linkOp:
     | LinkOptionType
     | (SinglePageLinkType & {
@@ -260,7 +278,9 @@ const SheetOptions = (
       <CollapsibleContent>
         <div className="-mx-6 grid gap-6 bg-muted p-6">
           {linkOp.linkChildren.map((linkOp2, index_1) => {
-            if ("title" in linkOp2 && "overview" in linkOp2) {
+            if (linkOp2.auth && !auth) {
+              return null;
+            } else if ("title" in linkOp2 && "overview" in linkOp2) {
               return (
                 <Link
                   key={`level_2_${linkOp2.title}_${index_0}_${index_1}`}
@@ -319,7 +339,7 @@ const SheetOptions = (
   );
 };
 
-const RightAlignedMenu = () => {
+const RightAlignedMenu = (auth: boolean) => {
   return (
     <div className="ml-auto flex gap-2">
       <DropdownMenu>
@@ -338,7 +358,9 @@ const RightAlignedMenu = () => {
         >
           {sideOptions.linkChildren.map((item, index) => {
             {
-              if ("action" in item) {
+              if (item.auth && !auth) {
+                return null;
+              } else if ("action" in item) {
                 return (
                   <DropdownMenuItem
                     key={index}
@@ -419,21 +441,28 @@ function MenuIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
 }
 
 function LogoSVGIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
+  const size = 50;
   return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
+    <Image
+      src={"/icons/logo_sqr-64.png"}
+      alt="logo"
+      width={size}
+      height={size}
+    />
+    // <svg
+    //   {...props}
+    //   xmlns="http://www.w3.org/2000/svg"
+    //   width="24"
+    //   height="24"
+    //   viewBox="0 0 24 24"
+    //   fill="none"
+    //   stroke="currentColor"
+    //   strokeWidth="2"
+    //   strokeLinecap="round"
+    //   strokeLinejoin="round"
+    // >
+    //   <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
+    // </svg>
   );
 }
 

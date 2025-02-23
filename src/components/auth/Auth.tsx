@@ -10,13 +10,25 @@ import ProfileButton from "./ProfileButton";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 
+/*
+
+// Server component
+const session = await getServerSession(authOptions);
+console.log(session?.accessToken);
+
+// Client component
+const { data: session } = useSession();
+console.log(session?.accessToken);
+
+ */
+
 export default function Auth() {
   const router = useRouter();
   const { data, isLoading } = useQuery(["providers"], async () => {
     const providerData = await getProviders();
     return providerData;
   });
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status } = useSession();
 
   console.log({ data });
   if (isLoading) {
@@ -47,15 +59,21 @@ export default function Auth() {
       >
         Sign in with Credentials
       </Button> */}
+      {status == "loading" && (
+        <div className="absolute w-full h-full bg-slate-800 bg-opacity-80 z-10 opacity-90 rounded-lg flex justify-center items-center">
+          <h1 className="text-slate-50">Loading...</h1>
+        </div>
+      )}
+      <p>Continue using...</p>
       {Object.values(data).map((provider) => {
         if (provider.id == "credentials") return;
         return (
           <button
             key={provider.id}
             onClick={() => signIn(provider.id)}
-            className="mt-6 relative flex w-full max-w-md justify-center rounded-md bg-gray-400 px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-gray-500"
+            className="mt-2 relative flex w-full max-w-md justify-center rounded-md bg-gray-400 px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-gray-500"
           >
-            Sign in with {provider.name}
+            {provider.name}
           </button>
         );
       })}

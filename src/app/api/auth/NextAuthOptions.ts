@@ -1,19 +1,64 @@
 import { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { Session } from "next-auth";
+import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-
-import { JWT } from "next-auth/jwt";
-import { signJwt } from "@/lib/jwt";
+import jwt from "jsonwebtoken"; // Import jsonwebtoken
 import { users } from "@/lib/nextAuth/users";
+
+const JWT_SECRET = process.env.JWT_SECRET! as string;
+
+// Function to sign JWT using process.env.JWT_SECRET
+function generateJwt(
+  payload: string | Buffer | object,
+  expiresIn: string = "15m"
+) {
+  if (!JWT_SECRET) {
+    throw new Error("Missing JWT_SECRET in environment variables");
+  }
+  // @ts-expect-error ---
+  return jwt.sign(payload, JWT_SECRET, { expiresIn });
+}
+
+// Function to verify JWT
+function verifyJwt(token: string) {
+  try {
+    if (!JWT_SECRET) {
+      throw new Error("Missing JWT_SECRET in environment variables");
+    }
+    return jwt.verify(token, JWT_SECRET);
+  } catch (error) {
+    console.error("JWT verification failed:", error);
+    return null;
+  }
+}
+
+// Function to refresh access token
+async function refreshAccessToken(token: any) {
+  try {
+    if (!token.refreshToken) throw new Error("No refresh token available");
+
+    // Verify refresh token
+    const decoded = verifyJwt(token.refreshToken);
+    if (!decoded) throw new Error("Invalid refresh token");
+
+    // Generate new access token
+    return {
+      ...token,
+      accessToken: generateJwt(
+        { email: token.email, provider: token.provider },
+        "15m"
+      ),
+      accessTokenExpires: Date.now() + 15 * 60 * 1000, // 15 mins
+    };
+  } catch (error) {
+    console.error("Refresh token failed", error);
+    return { ...token, error: "RefreshAccessTokenError" };
+  }
+}
 
 const authOptions: AuthOptions = {
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -25,9 +70,9 @@ const authOptions: AuthOptions = {
           throw new Error("Invalid credentials");
         }
 
-        const user = users.find((x) => x.email == credentials.email);
+        const user = users.find((x) => x.email === credentials.email);
 
-        if (!user || !user?.hashedPassword) {
+        if (!user || !user.hashedPassword) {
           throw new Error("Invalid credentials");
         }
 
@@ -47,37 +92,62 @@ const authOptions: AuthOptions = {
         };
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+    GitHubProvider({
+      clientId: process.env.AUTH_GITHUB_ID!,
+      clientSecret: process.env.AUTH_SECRET!,
+    }),
   ],
   callbacks: {
     async jwt({ token, user, account }) {
       if (account && user) {
-        // Handle both Google and Credentials sign in
-        token.accessToken = signJwt(
-          {
-            email: user.email,
-            provider: account.provider,
-          },
-          "48h"
+        const refreshToken = generateJwt(
+          { email: user.email },
+          "7d" // 7-day refresh token
         );
-        token.id = user.id;
+        token.accessToken = generateJwt(
+          { email: user.email, provider: account.provider },
+          "15m" // 15 min access token
+        );
+        token.refreshToken = refreshToken;
+        token.accessTokenExpires = Date.now() + 15 * 60 * 1000; // 15 mins
+        token.userId = user.id;
+
+        // Set refresh token cookie manually using the 'set-cookie' header
+        return token;
       }
+
+      // If token expired, refresh
+      if (Date.now() > (token.accessTokenExpires as number)) {
+        return await refreshAccessToken(token);
+      }
+
       return token;
     },
     async session({ session, token }) {
       if (token) {
         session.accessToken = token.accessToken!;
-        session.user.id = token.id as string;
+        session.refreshToken = token.refreshToken!;
+        session.user.id = token.userId as string;
       }
       return session;
     },
   },
+  theme: {
+    colorScheme: "auto",
+    logo: "/icons/logo_sqr-256.png",
+    buttonText: "Login",
+  },
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // Keep session for 30 days
-    updateAge: 24 * 60 * 60, // Update token once per day
+    maxAge: 7 * 24 * 60 * 60, // 7 days
+    updateAge: 24 * 60 * 60, // Update session every 24 hours
   },
   jwt: {
-    maxAge: 48 * 60 * 60, // 48 hours
+    maxAge: 15 * 60, // 15 mins
   },
   cookies: {
     sessionToken: {
@@ -89,6 +159,16 @@ const authOptions: AuthOptions = {
         path: "/",
       },
     },
+    // refreshToken: {
+    //   name: "next-auth.refresh-token",
+    //   options: {
+    //     httpOnly: true,
+    //     secure: process.env.NODE_ENV === "production",
+    //     sameSite: "strict",
+    //     path: "/",
+    //     maxAge: 7 * 24 * 60 * 60, // 7-day refresh token
+    //   },
+    // },
   },
   secret: process.env.NEXTAUTH_SECRET!,
   debug: process.env.NODE_ENV === "development",

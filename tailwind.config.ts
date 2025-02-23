@@ -61,6 +61,13 @@ const config: Config = {
           ring: "hsl(var(--sidebar-ring))",
         },
       },
+      boxShadow: {
+        // settings "x y blur spread rgba(r, g, b, a)"
+        left: "4px 0px 15px 3px rgba(0, 0, 0, 0.2)", // Shadow on the left
+        right: "-4px 0px 15px 3px rgba(0, 0, 0, 0.2)", // Shadow on the right
+        top: "0px -4px 15px 3px rgba(0, 0, 0, 0.2)", // Shadow on the top
+        bottom: "0px 4px 15px 3px rgba(0, 0, 0, 0.2)", // Shadow on the bottom
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
