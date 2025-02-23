@@ -17,7 +17,7 @@ export default function ProfileButton() {
         <AvatarImage src={session.user.image || ""} />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
-      <p>{`${session.user?.name}'s Profile`}</p>
+      <p className="mt-4">{`${session.user?.name}'s Profile`}</p>
     </div>
   );
 }

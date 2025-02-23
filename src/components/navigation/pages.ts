@@ -100,7 +100,7 @@ const sideOptions: SinglePageLinkType & {
   name: "Settings",
   href: "",
   linkChildren: [
-    { name: "Home", href: "/" },
+    { name: "Login", href: "/login" },
     { name: "Map", href: "/map" },
     {
       title: "Custom Action 1",

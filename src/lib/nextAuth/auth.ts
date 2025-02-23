@@ -1,19 +1,11 @@
+// src/lib/auth.ts
 import { AuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import { Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { users } from "./users";
 
-import { JWT } from "next-auth/jwt";
-import { signJwt } from "@/lib/jwt";
-import { users } from "@/lib/nextAuth/users";
-
-const authOptions: AuthOptions = {
+export const authOptions: AuthOptions = {
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -48,42 +40,19 @@ const authOptions: AuthOptions = {
       },
     }),
   ],
-  callbacks: {
-    async jwt({ token, user, account }) {
-      if (account && user) {
-        // Handle both Google and Credentials sign in
-        token.accessToken = signJwt(
-          {
-            email: user.email,
-            provider: account.provider,
-          },
-          "1h"
-        );
-        token.id = user.id;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token) {
-        session.accessToken = token.accessToken!;
-        session.user.id = token.id as string;
-      }
-      return session;
-    },
+  pages: {
+    signIn: "/login",
   },
   session: {
     strategy: "jwt",
   },
-  // pages: {
-  //   signIn: "/auth/signin",
-  // },
-  secret: process.env.NEXTAUTH_SECRET!,
-  debug: process.env.NODE_ENV === "development",
-  logger: {
-    error(code, metadata) {
-      console.error("NextAuth Error:", code, metadata);
+  callbacks: {
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.sub!;
+      }
+      return session;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET!,
 };
-
-export default authOptions;

@@ -3,7 +3,7 @@ import React, { lazy, Suspense } from "react";
 import { LoadingComp } from "../loading";
 import { nextDynamic } from "@/utils/dynamic";
 import { getTRPCCaller } from "../_trpc/server";
-import Auth from "@/components/auth/Auth";
+import LoginPage from "./login/page";
 
 /** Express Server Functionality */
 // import CookieDemo from "@/components/demo/cookie";
@@ -64,7 +64,7 @@ export default async function Home() {
 
   return (
     <div className="flex-auto justify-center">
-      <Auth />
+      <LoginPage />
       <div className="my-5 border-2 border-slate-400">
         <h3 className="font-bold text-xl">
           {"Home Page - (Rendered on Request)"}
