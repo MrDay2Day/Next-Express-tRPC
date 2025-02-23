@@ -57,7 +57,7 @@ const authOptions: AuthOptions = {
             email: user.email,
             provider: account.provider,
           },
-          "1h"
+          "48h"
         );
         token.id = user.id;
       }
@@ -73,10 +73,23 @@ const authOptions: AuthOptions = {
   },
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // Keep session for 30 days
+    updateAge: 24 * 60 * 60, // Update token once per day
   },
-  // pages: {
-  //   signIn: "/auth/signin",
-  // },
+  jwt: {
+    maxAge: 48 * 60 * 60, // 48 hours
+  },
+  cookies: {
+    sessionToken: {
+      name: "next-auth.session-token",
+      options: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
+      },
+    },
+  },
   secret: process.env.NEXTAUTH_SECRET!,
   debug: process.env.NODE_ENV === "development",
   logger: {

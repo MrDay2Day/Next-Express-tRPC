@@ -15,7 +15,7 @@ export default function ProfileButton() {
     <div className="flex flex-col items-center justify-center">
       <Avatar>
         <AvatarImage src={session.user.image || ""} />
-        <AvatarFallback>CN</AvatarFallback>
+        <AvatarFallback>{session.user?.name?.split("")[0]}</AvatarFallback>
       </Avatar>
       <p className="mt-4">{`${session.user?.name}'s Profile`}</p>
     </div>

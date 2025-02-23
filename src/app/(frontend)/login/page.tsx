@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Auth from "@/components/auth/Auth";
 import RegisterModal from "@/components/auth/RehistrationModal";
+import { LoadingComp } from "@/app/loading";
 
 /*
 
@@ -20,7 +21,7 @@ console.log(session?.accessToken);
  */
 
 export default function LoginPage() {
-  const { data: sessionData } = useSession();
+  const { data: sessionData, status } = useSession();
 
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -79,6 +80,10 @@ export default function LoginPage() {
       setError("Something went wrong");
     }
   };
+
+  if (status == "loading") {
+    return <LoadingComp />;
+  }
 
   return (
     <div className="flex flex-col items-center mb-10">
