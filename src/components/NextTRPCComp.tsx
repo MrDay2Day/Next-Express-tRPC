@@ -14,9 +14,9 @@ export default function NextTRPCComp(props: { children: React.ReactNode }) {
 
   return (
     <div className="pv-10 mb-5 border-2 border-sky-400">
-      <h1>{"Client Component - Next tRPC | trpcNextAPIClient -> Component"}</h1>
+      <h3>{"Client Component - Next tRPC | trpcNextAPIClient -> Component"}</h3>
       {props.children}
-      <h1>{hello.data.greeting || "Umm..."}</h1>
+      <h3>{hello.data.greeting || "Umm..."}</h3>
       <input
         className={"border-2 rounded-sm border-yellow-700 ml-5 mt-5"}
         type={"number"}
@@ -32,7 +32,7 @@ export default function NextTRPCComp(props: { children: React.ReactNode }) {
         placeholder={"Number 2"}
         onChange={(e) => setNumbers({ ...numbers, num2: +e.target.value })}
       />
-      <h1 className="m-5 font-bold">{result}</h1>
+      <h3 className="m-5 font-bold">{result}</h3>
       <Button
         className="bg-purple-500 ml-5 my-5"
         onClick={() => {

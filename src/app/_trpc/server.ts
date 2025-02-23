@@ -1,4 +1,4 @@
-import { createCaller_next } from "../(server)/api/trpc/_trpc_functions/main";
+import { createCaller_next } from "../api/trpc/_trpc_functions/main";
 import { GetTRPCCallerTypes } from "./config/trpc_types";
 
 function getTRPCCaller(others?: Partial<GetTRPCCallerTypes>) {

@@ -1,5 +1,24 @@
 import { NextResponse, NextRequest } from "next/server";
 
+// import { withAuth } from "next-auth/middleware";
+
+// export const runtime = "experimental-edge";
+
+// export default withAuth({
+//   pages: {
+//     signIn: "/api/auth/signin",
+//   },
+// });
+
+// export const config = {
+//   matcher: [
+//     // Protected routes
+//     "/authenticated",
+//     "/dashboard/:path*",
+//     "/profile/:path*",
+//   ],
+// };
+
 // -->> Redirect Method 1
 // export function middleware(request: NextRequest) {
 //   return NextResponse.redirect(new URL("/", request.url));

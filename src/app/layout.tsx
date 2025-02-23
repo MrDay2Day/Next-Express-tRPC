@@ -9,6 +9,7 @@ import { SocketProvider } from "@/lib/socket/SocketProvider";
 import TRPCProvider from "@/app/utils/TRPCProvider";
 
 import { ThemeProvider } from "@/components/theme-provider";
+import NextAuthSessionWrapper from "@/components/auth/NextAuthSessionWrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -47,26 +48,34 @@ export const viewport: Viewport = {
 
 console.log("NODE ENVIRONMENT - " + process.env.NODE_ENV);
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  // const session = await getServerSession(authOptions);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased pb-0 bg-[--background]`}
       >
-        <TRPCProvider>
-          <StoreProvider>
-            <SocketProvider>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
-                disableTransitionOnChange
-              >
-                {children}
-              </ThemeProvider>
-            </SocketProvider>
-          </StoreProvider>
-        </TRPCProvider>
+        <NextAuthSessionWrapper>
+          <TRPCProvider>
+            <StoreProvider>
+              <SocketProvider>
+                <ThemeProvider
+                  attribute="class"
+                  defaultTheme="system"
+                  enableSystem
+                  disableTransitionOnChange
+                >
+                  {children}
+                </ThemeProvider>
+              </SocketProvider>
+            </StoreProvider>
+          </TRPCProvider>
+        </NextAuthSessionWrapper>
       </body>
     </html>
   );

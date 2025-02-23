@@ -1,4 +1,4 @@
-export async function uploadByFile(file: any) {
+export async function uploadByFile(file: File) {
   const formData = new FormData();
   formData.append("files", file);
   const requestOptions = { method: "POST", body: formData };

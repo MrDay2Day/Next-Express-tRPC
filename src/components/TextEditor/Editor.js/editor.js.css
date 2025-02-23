@@ -49,11 +49,21 @@
 }
 
 .ce-popover-item:hover,
+.tc-row--selected:hover,
+.tc-column--selected:hover,
+.tc-toolbox--column:hover,
 .tc-cell--selected {
   color: var(--default-text-hover) !important;
   background-color: #747474 !important;
 }
 
 .tc-table {
-  border-left: 1px solid var(--default-text);
+  border-left: 1px solid var(--default-border);
+}
+
+.image-tool__image,
+.image-too--filled,
+.image-tool__caption {
+  margin-bottom: 0px !important;
+  padding-bottom: 0px ip !important;
 }

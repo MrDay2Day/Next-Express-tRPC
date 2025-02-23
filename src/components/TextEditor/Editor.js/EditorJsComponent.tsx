@@ -8,8 +8,13 @@ import { useCallback, useMemo, useState } from "react";
 import { OutputData } from "@editorjs/editorjs";
 import { EDITOR_JS_TOOLS } from "./editorjs.config";
 import { EditorCore, EditorJsType } from "./editor.js.types";
+import { useTheme } from "next-themes";
+
+//@ts-expect-error ---
+import DragDrop from "editorjs-drag-drop";
 
 function EditorJsComponent(props?: EditorJsType) {
+  const { theme } = useTheme();
   const editorCore = useRef<EditorCore | null>(null);
   const [data] = useState<OutputData>(
     props && props.data
@@ -70,15 +75,24 @@ function EditorJsComponent(props?: EditorJsType) {
   return (
     <>
       <div>
-        <div className="max-w-[900px] mx-auto rounded-3xl shadow-2xl bg-[--background] p-4 m-10">
+        <div
+          className={`max-w-[900px] mx-auto rounded-3xl shadow-2xl bg-[--background] m-10 border-[${
+            theme === "dark" ? "1" : "0"
+          }px] border-slate-800`}
+        >
           <ReactEditorJS
             tools={EDITOR_JS_TOOLS}
             defaultValue={data}
             onInitialize={handleInitialize}
             onChange={handleSave}
             placeholder="Start writing your content..."
-            onReady={() => console.log("Editor is ready!")}
+            onReady={() => {
+              const editor = editorCore.current?._editorJS;
+              new DragDrop(editor);
+              console.log("Editor is ready!");
+            }}
             readOnly={props && props.viewOnly ? true : false}
+            inlineToolbar={true}
           />
         </div>
       </div>

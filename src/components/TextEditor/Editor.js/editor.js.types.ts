@@ -10,6 +10,7 @@ export interface EditorCore {
   clear(): Promise<void>;
   save(): Promise<OutputData>;
   render(data: OutputData): Promise<void>;
+  _editorJS?: any;
 }
 
 export interface ImageUploadResponse {

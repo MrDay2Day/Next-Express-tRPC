@@ -1,7 +1,7 @@
 import "server-only";
 
 import { NextRequest, NextResponse } from "next/server";
-import { composeMiddleware } from "../../../../middleware/server/server_middlewares";
+import { composeMiddleware } from "../../../middleware/server/server_middlewares";
 import { catchError } from "@/utils/catchError";
 import { ServerSocketConn } from "@/private/socket/socketConnect";
 

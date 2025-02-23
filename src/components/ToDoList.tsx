@@ -7,7 +7,7 @@ export default function TodoList({ children }: PropsWithChildren) {
   const getTodos = trpcNextAPIClient.getTodos.useQuery();
   return (
     <div className="pv-10 mb-5 border-2 border-purple-600">
-      <h1>{"Client Component - ToDoList | trpcNextAPIClient -> Component"}</h1>
+      <h3>{"Client Component - ToDoList | trpcNextAPIClient -> Component"}</h3>
       <>{children}</>
       <br />
       <div>

@@ -1,9 +1,9 @@
 import "server-only";
 import { NextResponse } from "next/server";
-import { catchErrorPromiseFunc } from "../../../../utils/catchError";
-import { fetchFromDatabase } from "../../../../private/db_access";
-import { composeMiddleware } from "../../../../middleware/server/server_middlewares";
-import { authMiddleware } from "../../../../middleware/server/middlewares/authMiddleware";
+import { catchErrorPromiseFunc } from "../../../utils/catchError";
+import { fetchFromDatabase } from "../../../private/db_access";
+import { composeMiddleware } from "../../../middleware/server/server_middlewares";
+import { authMiddleware } from "../../../middleware/server/middlewares/authMiddleware";
 
 async function handle_get() {
   try {

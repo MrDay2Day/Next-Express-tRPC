@@ -24,7 +24,7 @@ export default function ListenTest({
 
   return (
     <div className="pv-10 mb-5 border-2 border-lime-600">
-      <h1>{"Client Component - Socket Listen | useSocket Hook"}</h1>
+      <h3>{"Client Component - Socket Listen | useSocket Hook"}</h3>
       {children}
       <p>Socket Listen test - {value}</p>
     </div>

@@ -1,7 +1,7 @@
 import "server-only";
 
 import { publicProcedure_next, router_next } from "../../../trpc";
-import { generateDatabase } from "../../../../../../../cloudflare/database/config/config";
+import { generateDatabase } from "../../../../../../cloudflare/database/config/config";
 import { TRPCError } from "@trpc/server";
 
 export const CustomerManagement = router_next({

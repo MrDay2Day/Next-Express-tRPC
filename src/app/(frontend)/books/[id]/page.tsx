@@ -1,7 +1,7 @@
 "use server";
 
-import { createCaller_next } from "@/app/(server)/api/trpc/_trpc_functions/main";
-import { Book } from "@/app/(server)/api/trpc/_trpc_functions/books/_data";
+import { createCaller_next } from "@/app/api/trpc/_trpc_functions/main";
+import { Book } from "@/app/api/trpc/_trpc_functions/books/_data";
 import BackButton from "@/components/BackButton";
 import { Metadata } from "next";
 

@@ -3,9 +3,9 @@ import "server-only";
 
 import { initTRPC, inferAsyncReturnType } from "@trpc/server";
 import { ZodError } from "zod";
-import { createNextAPIContext } from "../../_trpc/config/trpc_api";
+import { createNextAPIContext } from "../_trpc/config/trpc_api";
 
-import * as SuperJSON from "../../../../utilities/superjson/dist";
+import * as SuperJSON from "../../../utilities/superjson/dist";
 
 type Context = inferAsyncReturnType<typeof createNextAPIContext>;
 

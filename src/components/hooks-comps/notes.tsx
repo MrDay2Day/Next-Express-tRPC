@@ -12,7 +12,7 @@ export default function Notes() {
     .map((_, i, arr) => arr[arr.length - 1 - i]) // Reverse Array
     .map((note) => (
       <div className="border rounded-lg my-5 p-5 max-w-52" key={note.id}>
-        <h1>{note.heading}</h1>
+        <h3>{note.heading}</h3>
         <p className="text-xs">{note.id}</p>
         <p>{note.content}</p>
         {/* <button
@@ -27,7 +27,7 @@ export default function Notes() {
   return (
     <>
       <div className="my-5 border-2 border-cyan-800">
-        <h1>{"Client Component - Notes | Reducer -> Component"}</h1>
+        <h3>{"Client Component - Notes | Reducer -> Component"}</h3>
         {renderNotes}
       </div>
     </>

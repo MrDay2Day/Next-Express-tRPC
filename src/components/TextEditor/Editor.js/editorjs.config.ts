@@ -13,16 +13,19 @@ import List from "@editorjs/list";
 import Quote from "@editorjs/quote";
 import Warning from "@editorjs/warning";
 import CodeTool from "@editorjs/code";
-import Delimiter from "@editorjs/delimiter";
+// import Delimiter from "@editorjs/delimiter";
 import InlineCode from "@editorjs/inline-code";
 import Table from "@editorjs/table";
 import CodeBlock from "@bomdi/codebox";
 import EditorjsList from "@editorjs/list";
+//@ts-expect-error ---
+import Delimiter from "@coolbytes/editorjs-delimiter";
 
 import { uploadByFile } from "@/utils/fileManagement";
 import { ImageUploadResponse } from "./editor.js.types";
 
 export const EDITOR_JS_TOOLS = {
+  header: Header,
   table: Table,
   list: List,
   quote: {
@@ -41,7 +44,7 @@ export const EDITOR_JS_TOOLS = {
       messagePlaceholder: "Message",
     },
   },
-  code: CodeTool,
+  // code: CodeTool,
   // code: CodeBlock,
   linkTool: LinkTool,
   image: {
@@ -74,11 +77,21 @@ export const EDITOR_JS_TOOLS = {
       },
     },
   },
-  header: Header,
   marker: Marker,
   checklist: Checklist,
-  delimiter: Delimiter,
-  inlineCode: InlineCode,
+  // delimiter: Delimiter,
+  delimiter: {
+    class: Delimiter,
+    config: {
+      styleOptions: ["star", "dash", "line"],
+      defaultStyle: "star",
+      lineWidthOptions: [8, 15, 25, 35, 50, 60, 100],
+      defaultLineWidth: 25,
+      lineThicknessOptions: [1, 2, 3, 4, 5, 6],
+      defaultLineThickness: 2,
+    },
+  },
+  code: InlineCode,
   simpleImage: SimpleImage,
 };
 

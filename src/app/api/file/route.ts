@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
 import { pipeline, Readable } from "stream";
 import { promisify } from "util";
 import { composeMiddleware } from "@/middleware/server/server_middlewares";
+
+/* DEMO - Does not work in serverless environment. */
+import fs from "fs";
 import path from "path";
 
 const pump = promisify(pipeline);
 
 function webToNodeStream(webStream: ReadableStream): Readable {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return Readable.fromWeb(webStream as any);
 }
 

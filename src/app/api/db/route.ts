@@ -1,7 +1,7 @@
 import "server-only";
 import { NextResponse } from "next/server";
 import { composeMiddleware } from "@/middleware/server/server_middlewares";
-import { generateDatabase } from "../../../../../cloudflare/database/config/config";
+import { generateDatabase } from "../../../../cloudflare/database/config/config";
 
 async function handle_get() {
   try {

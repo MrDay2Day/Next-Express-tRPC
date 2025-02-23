@@ -31,7 +31,8 @@
     "cloudflare-env.d.ts",
     "next-env.d.ts",
     "next.config.ts",
-    "vercel/build/types/**/*.ts"
+    "vercel/build/types/**/*.ts",
+    "types/**/*.d.ts"
   ],
   "exclude": ["node_modules"]
 }

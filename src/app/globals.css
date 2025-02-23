@@ -11,6 +11,7 @@ body {
   :root {
     --background: white;
     --default-text: hsl(226, 68%, 5%);
+    --default-border: rgb(226, 232, 240);
     --default-text-hover: white;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -48,6 +49,7 @@ body {
   .dark {
     --background: #040815;
     --default-text: white;
+    --default-border: rgb(226, 232, 240);
     --default-text-hover: #040815;
     --foreground: 210 40% 98%;
     --card: 222.2 84% 4.9%;
@@ -106,4 +108,13 @@ h4 {
 }
 p {
   @apply text-base;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
