@@ -97,17 +97,23 @@ const authOptions: AuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
     GitHubProvider({
-      clientId: process.env.AUTH_GITHUB_ID!,
-      clientSecret: process.env.AUTH_SECRET!,
+      clientId: process.env.GITHUB_AUTH_ID!,
+      clientSecret: process.env.GITHUB_AUTH_SECRET!,
     }),
   ],
   callbacks: {
     async jwt({ token, user, account }) {
       if (account && user) {
+        /*********************************
+         *  Check for email in database  *
+         *          user.email           *
+         *********************************/
+
         const refreshToken = generateJwt(
           { email: user.email },
           "7d" // 7-day refresh token
         );
+
         token.accessToken = generateJwt(
           { email: user.email, provider: account.provider },
           "15m" // 15 min access token
@@ -128,10 +134,14 @@ const authOptions: AuthOptions = {
       return token;
     },
     async session({ session, token }) {
+      /*********************************
+       *      Add data to session      *
+       *********************************/
       if (token) {
         session.accessToken = token.accessToken!;
         session.refreshToken = token.refreshToken!;
         session.user.id = token.userId as string;
+        session.user.role = "ADMIN";
       }
       return session;
     },
@@ -151,7 +161,7 @@ const authOptions: AuthOptions = {
   },
   cookies: {
     sessionToken: {
-      name: "next-auth.session-token",
+      name: "d2d.auth.session.token",
       options: {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -159,22 +169,18 @@ const authOptions: AuthOptions = {
         path: "/",
       },
     },
-    // refreshToken: {
-    //   name: "next-auth.refresh-token",
-    //   options: {
-    //     httpOnly: true,
-    //     secure: process.env.NODE_ENV === "production",
-    //     sameSite: "strict",
-    //     path: "/",
-    //     maxAge: 7 * 24 * 60 * 60, // 7-day refresh token
-    //   },
-    // },
   },
   secret: process.env.NEXTAUTH_SECRET!,
   debug: process.env.NODE_ENV === "development",
   logger: {
     error(code, metadata) {
       console.error("NextAuth Error:", code, metadata);
+    },
+    warn(code) {
+      console.log("NextAuth WARN:", code);
+    },
+    debug(code, metadata) {
+      console.error("NextAuth DEBUG:", code, metadata);
     },
   },
 };

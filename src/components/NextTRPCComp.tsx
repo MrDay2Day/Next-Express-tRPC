@@ -10,6 +10,33 @@ export default function NextTRPCComp(props: { children: React.ReactNode }) {
   const [numbers, setNumbers] = useState({ num1: 0, num2: 0 });
   const [result, setResult] = useState(0);
 
+  function tRPCAction() {
+    try {
+      addNumbersMutation.mutate(numbers, {
+        onSuccess: (data, variables) => {
+          console.log("onSuccess", { data, variables });
+          setResult(data.result);
+        },
+        onError(error, variables, context) {
+          console.log("onError", { error, variables, context });
+        },
+        onSettled(data, error, variables, context) {
+          console.log("onSettled", { data, error, variables, context });
+        },
+      });
+    } catch (error: unknown) {
+      console.log({ error });
+    }
+  }
+
+  function setNum1(e: React.ChangeEvent<HTMLInputElement>) {
+    setNumbers({ ...numbers, num1: +e.target.value });
+  }
+
+  function setNum2(e: React.ChangeEvent<HTMLInputElement>) {
+    setNumbers({ ...numbers, num2: +e.target.value });
+  }
+
   if (!hello.data) return <div>Loading...</div>;
 
   return (
@@ -22,7 +49,7 @@ export default function NextTRPCComp(props: { children: React.ReactNode }) {
         type={"number"}
         value={numbers.num1}
         placeholder={"Number 1"}
-        onChange={(e) => setNumbers({ ...numbers, num1: +e.target.value })}
+        onChange={setNum1}
       />
       <br />
       <input
@@ -30,30 +57,10 @@ export default function NextTRPCComp(props: { children: React.ReactNode }) {
         type={"number"}
         value={numbers.num2}
         placeholder={"Number 2"}
-        onChange={(e) => setNumbers({ ...numbers, num2: +e.target.value })}
+        onChange={setNum2}
       />
       <h3 className="m-5 font-bold">{result}</h3>
-      <Button
-        className="bg-purple-500 ml-5 my-5"
-        onClick={() => {
-          try {
-            addNumbersMutation.mutate(numbers, {
-              onSuccess: (data, variables) => {
-                console.log("onSuccess", { data, variables });
-                setResult(data.result);
-              },
-              onError(error, variables, context) {
-                console.log("onError", { error, variables, context });
-              },
-              onSettled(data, error, variables, context) {
-                console.log("onSettled", { data, error, variables, context });
-              },
-            });
-          } catch (error: unknown) {
-            console.log({ error });
-          }
-        }}
-      >
+      <Button className="bg-purple-500 ml-5 my-5" onClick={tRPCAction}>
         Add Numbers
       </Button>
     </div>

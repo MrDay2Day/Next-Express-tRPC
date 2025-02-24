@@ -8,13 +8,14 @@ declare module "next-auth" {
     refreshToken: string;
     user: {
       id: string;
+      role: "ADMIN" | "USER";
     } & DefaultSession["user"];
   }
 
   interface User {
     id: string;
     email: string;
-    name?: string;
+    name: string;
   }
 }
 
