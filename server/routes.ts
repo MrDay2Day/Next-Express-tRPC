@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import express, { NextFunction, Request, Response } from "express";
+import express, { Request, Response } from "express";
 
 import ServerSideEvent from "./app/events/eventRoute";
 import CookieWorker from "./app/utils/cookieWorker";
@@ -8,6 +8,8 @@ import dotenv from "dotenv";
 import { serverMainContext } from "./app/trpc/context/context";
 import modules from "./middleware/modules";
 import pushRouter from "./app/push/notifications";
+import authOptions from "../src/app/api/auth/NextAuthOptions";
+
 dotenv.config();
 
 const endPoints = express.Router();

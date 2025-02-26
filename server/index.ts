@@ -1,4 +1,5 @@
-import express, { Request, Response } from "express";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import express, { NextFunction, Request, Response } from "express";
 import { createServer } from "http";
 import next from "next";
 
@@ -46,6 +47,19 @@ async function startNextExpressServer() {
     expressApp.all("*", (req: Request, res: Response) => {
       return handle(req, res);
     });
+
+    expressApp.use(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (error: any, _req: Request, res: Response, _next: NextFunction) => {
+        console.error(error); // Log the error for debugging
+
+        res.status(500).json({
+          success: false,
+          message: "An unexpected error occurred.",
+          error: error.message || "Internal Server Error",
+        });
+      }
+    );
 
     //
     const PORT = process.env.PORT || 3000;

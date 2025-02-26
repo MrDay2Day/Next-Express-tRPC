@@ -7,6 +7,7 @@ import LinkedInProvider from "next-auth/providers/linkedin";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"; // Import jsonwebtoken
 import { users } from "@/lib/nextAuth/users";
+import { JWT } from "next-auth/jwt";
 
 const JWT_SECRET = process.env.JWT_SECRET! as string;
 
@@ -36,7 +37,7 @@ function verifyJwt(token: string) {
 }
 
 // Function to refresh access token
-async function refreshAccessToken(token: any) {
+async function refreshAccessToken(token: JWT) {
   try {
     if (!token.refreshToken) throw new Error("No refresh token available");
 
