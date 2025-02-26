@@ -123,6 +123,8 @@ const sideOptions: SinglePageLinkType & {
   linkChildren: [
     { name: "Login", href: "/login", auth: false },
     { name: "Map", href: "/map", auth: true },
+    { name: "Terms Of Service", href: "/tos", auth: false },
+    { name: "Privacy Policies", href: "/privacy", auth: false },
     {
       title: "Custom Action 1",
       action: () => {

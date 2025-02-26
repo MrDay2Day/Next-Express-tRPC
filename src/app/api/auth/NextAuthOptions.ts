@@ -1,7 +1,9 @@
 import { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
+import LinkedInProvider from "next-auth/providers/linkedin";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"; // Import jsonwebtoken
 import { users } from "@/lib/nextAuth/users";
@@ -99,6 +101,14 @@ const authOptions: AuthOptions = {
     GitHubProvider({
       clientId: process.env.GITHUB_AUTH_ID!,
       clientSecret: process.env.GITHUB_AUTH_SECRET!,
+    }),
+    FacebookProvider({
+      clientId: "1306758607208798",
+      clientSecret: "cd7f69b9ec7ea0963ac7063f793a0e21",
+    }),
+    LinkedInProvider({
+      clientId: "78unx0f6wax3v9",
+      clientSecret: "WPL_AP1.XFjXt5nJ4IjL3h21.IJQxBQ==",
     }),
   ],
   callbacks: {
