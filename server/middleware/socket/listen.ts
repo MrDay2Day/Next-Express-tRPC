@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DisconnectReason, Socket } from "socket.io";
 import http from "http";
@@ -19,18 +20,20 @@ io?.engine.on("connection_error", (err: any) => {
   });
 });
 
+let activeSockets: string[] = [];
+
 export async function generalListeners(
   socket: Socket,
   request: http.IncomingMessage
 ) {
   try {
-    const auth = socket.handshake.auth;
-    const headers = request.headers;
+    // const auth = socket.handshake.auth;
+    // const headers = request.headers;
 
-    socket.onAny(async (event) => {
-      console.log({ auth, headers });
-      console.log({ event }, socket.data);
-    });
+    // socket.onAny(async (event) => {
+    //   console.log({ auth, headers });
+    //   console.log({ event }, socket.data);
+    // });
 
     console.log("Client connected:", socket.id);
     socketIOLogger.info(socket.id, "Client connected", { event: "connection" });
@@ -52,7 +55,6 @@ export async function generalListeners(
     });
 
     /**Examples of general socket listeners */
-
     socket.on("ping", async (data, callback) => {
       try {
         socketIOLogger.info(socket.id, "Triggers a ping to server for demo", {
@@ -93,7 +95,6 @@ export async function generalListeners(
         console.log({ err });
       }
     });
-
     socket.on("clients", async (data, callback) => {
       try {
         socketIOLogger.info(socket.id, "Trigger client endpoint", { data });
@@ -114,6 +115,75 @@ export async function generalListeners(
       } catch (err) {
         console.log({ err });
       }
+    });
+
+    /** WebRTC Functions */
+    const existingSocket = activeSockets.find(
+      (existingSocket) => existingSocket === socket.id
+    );
+    console.log({ existingSocket });
+
+    if (!existingSocket) {
+      activeSockets.push(socket.id);
+
+      console.log({ activeSockets });
+
+      socket.emit("update-user-list", {
+        users: activeSockets,
+      });
+    }
+
+    socket.on("mute-user", (data) => {
+      socket.to(data.to).emit("user-muted", { socket: socket.id });
+    });
+    socket.on("ice-candidate", (data) => {
+      const { candidate, to } = data;
+
+      // Forward the candidate to the intended recipient
+      socket.to(to).emit("ice-candidate", {
+        candidate,
+        from: socket.id,
+      });
+    });
+    socket.on("refresh", (data: any, callback: (x: string[]) => void) => {
+      callback(activeSockets);
+    });
+    socket.on("call-user", (data: any) => {
+      socket.to(data.to).emit("call-made", {
+        offer: data.offer,
+        socket: socket.id,
+      });
+    });
+    socket.on("end-call", (data: any) => {
+      socket.to(data.to).emit("end-call", {
+        socket: socket.id,
+      });
+    });
+    socket.on("make-answer", (data) => {
+      socket.to(data.to).emit("answer-made", {
+        socket: socket.id,
+        answer: data.answer,
+      });
+    });
+    socket.on("reject-call", (data) => {
+      socket.to(data.from).emit("call-rejected", {
+        socket: socket.id,
+      });
+    });
+    socket.on("disconnect", () => {
+      const newList: string[] = [];
+
+      activeSockets.forEach((c) => {
+        if (c !== socket.id) {
+          newList.push(c);
+        }
+      });
+
+      activeSockets = newList;
+
+      socket.broadcast.emit("remove-user", {
+        socketId: socket.id,
+      });
     });
   } catch (error: unknown) {
     console.log("Error - generalListeners", error);

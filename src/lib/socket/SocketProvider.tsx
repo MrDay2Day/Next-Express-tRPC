@@ -23,7 +23,7 @@ export type SocketContextValue = {
     callBack?: (response: any) => void
   ) => void;
   socketListenOn: (event: string, callBack: (response: any) => void) => void;
-  socketListenOff: (event: string) => void;
+  socketListenOff: (event: string, callBack: (response: any) => void) => void;
 };
 
 const SocketContext: React.Context<SocketContextValue | null> =
@@ -51,7 +51,9 @@ function SocketProvider({ children }: SocketProviderProps) {
   const socketListenOn = useRef<
     (event: string, callBack: (response: any) => void) => void
   >(() => {});
-  const socketListenOff = useRef<(event: string) => void>(() => {});
+  const socketListenOff = useRef<
+    (event: string, callBack: (response: any) => void) => void
+  >(() => {});
 
   const online = true;
   //   const storedSocket = useSelector((state: any) => state.socket.connection);

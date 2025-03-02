@@ -122,6 +122,7 @@ const sideOptions: SinglePageLinkType & {
   auth: false,
   linkChildren: [
     { name: "Login", href: "/login", auth: false },
+    { name: "WebRTC", href: "/rtc", auth: false },
     { name: "Map", href: "/map", auth: true },
     { name: "Terms Of Service", href: "/tos", auth: false },
     { name: "Privacy Policies", href: "/privacy", auth: false },

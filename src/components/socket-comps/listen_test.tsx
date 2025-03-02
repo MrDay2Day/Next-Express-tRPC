@@ -12,13 +12,14 @@ export default function ListenTest({
   const [value, setValue] = useState("");
 
   useEffect(() => {
-    socketTools?.socketListenOn("tick", (res: { data: string; date: Date }) => {
+    const tickFunc = (res: { data: string; date: Date }) => {
       console.log({ res });
       setValue(res.data || "No Data");
-    });
+    };
+    socketTools?.socketListenOn("tick", tickFunc);
 
     return () => {
-      socketTools?.socketListenOff("tick");
+      socketTools?.socketListenOff("tick", tickFunc);
     };
   }, [socketTools]);
 
