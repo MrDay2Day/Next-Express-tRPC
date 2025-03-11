@@ -1,7 +1,6 @@
 // src/app/api/register/route.ts
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-// import { getCount, users } from "@/lib/nextAuth/users";
 import { usersTable } from "../../../../database/schemas/Users";
 import { pg_db } from "../../../../database/index";
 import { eq } from "drizzle-orm";

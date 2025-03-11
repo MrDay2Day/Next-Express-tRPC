@@ -4,7 +4,6 @@ import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"; // Import jsonwebtoken
-import { users } from "@/lib/nextAuth/users";
 import { JWT } from "next-auth/jwt";
 import { pg_db } from "../../../../database";
 import { usersTable } from "../../../../database/schemas/Users";

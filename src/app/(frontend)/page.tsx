@@ -11,6 +11,15 @@ import LoginPage from "./login/page";
 /** Express Server Functionality */
 // import { trpcServerSide } from "../../server/trpc/trpcServerSide";
 
+const PushComp = nextDynamic(
+  // @ts-expect-error: None
+  () => import("../utils/PushRegister"),
+  {
+    loading: () => <LoadingComp />, // Optional custom fallback
+    ssr: true, // Optional: Disable server-side rendering for this component
+  }
+);
+
 const NextTRPCComp = nextDynamic<
   React.ComponentProps<typeof import("@/components/NextTRPCComp").default>
 >(
@@ -64,6 +73,7 @@ export default async function Home() {
 
   return (
     <div className="flex-auto justify-center">
+      <PushComp />
       <LoginPage />
       <div className="my-5 border-2 border-slate-400">
         <h3 className="font-bold text-xl">
