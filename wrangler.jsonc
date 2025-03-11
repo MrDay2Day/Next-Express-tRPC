@@ -4,14 +4,19 @@
   "name": "d2d-nextjs-express-socket-trpc-demo",
   "compatibility_date": "2024-12-30",
   "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
   "assets": {
     "directory": ".open-next/assets",
     "binding": "WORKER_ASSETS"
   },
-  "kv_namespaces": [],
-  "observability": {
-    "enabled": true
-  },
+  "kv_namespaces": [
+    {
+      "binding": "d2d",
+      "id": "e4114af5fa1c4c12a339ddee7db507aa"
+    }
+  ],
   "d1_databases": [
     {
       "binding": "D1_DB",

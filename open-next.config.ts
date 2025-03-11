@@ -1,6 +1,6 @@
-// @ts-expect-error: ECMAScript module
+// @ts-nocheck ---
+
 import type { OpenNextConfig } from "@opennextjs/aws/types/open-next.js";
-// @ts-expect-error: ECMAScript module
 import cache from "@opennextjs/cloudflare/kvCache";
 
 const config: OpenNextConfig = {

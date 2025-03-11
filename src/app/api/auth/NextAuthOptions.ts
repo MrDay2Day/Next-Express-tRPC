@@ -1,13 +1,16 @@
 import { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
-import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
-import LinkedInProvider from "next-auth/providers/linkedin";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"; // Import jsonwebtoken
 import { users } from "@/lib/nextAuth/users";
 import { JWT } from "next-auth/jwt";
+import { pg_db } from "../../../../database";
+import { usersTable } from "../../../../database/schemas/Users";
+import { eq } from "drizzle-orm";
+// import FacebookProvider from "next-auth/providers/facebook";
+// import LinkedInProvider from "next-auth/providers/linkedin";
 
 const JWT_SECRET = process.env.JWT_SECRET! as string;
 
@@ -73,15 +76,25 @@ const authOptions: AuthOptions = {
           throw new Error("Invalid credentials");
         }
 
-        const user = users.find((x) => x.email === credentials.email);
+        const users = await pg_db
+          .select()
+          .from(usersTable)
+          .where(eq(usersTable.email, credentials.email));
 
-        if (!user || !user.hashedPassword) {
+        if (
+          !users ||
+          users.length <= 0 ||
+          users.length > 1 ||
+          !users[0].password
+        ) {
           throw new Error("Invalid credentials");
         }
 
+        const user = users[0];
+
         const isCorrectPassword = await bcrypt.compare(
           credentials.password,
-          user.hashedPassword
+          user["password"]
         );
 
         if (!isCorrectPassword) {
@@ -89,7 +102,7 @@ const authOptions: AuthOptions = {
         }
 
         return {
-          id: user.id,
+          id: String(user.id),
           email: user.email,
           name: user.name,
         };
@@ -103,14 +116,14 @@ const authOptions: AuthOptions = {
       clientId: process.env.GITHUB_AUTH_ID!,
       clientSecret: process.env.GITHUB_AUTH_SECRET!,
     }),
-    FacebookProvider({
-      clientId: "1306758607208798",
-      clientSecret: "cd7f69b9ec7ea0963ac7063f793a0e21",
-    }),
-    LinkedInProvider({
-      clientId: "78unx0f6wax3v9",
-      clientSecret: "WPL_AP1.XFjXt5nJ4IjL3h21.IJQxBQ==",
-    }),
+    // FacebookProvider({
+    //   clientId: "1306758607208798",
+    //   clientSecret: "cd7f69b9ec7ea0963ac7063f793a0e21",
+    // }),
+    // LinkedInProvider({
+    //   clientId: "78unx0f6wax3v9",
+    //   clientSecret: "WPL_AP1.XFjXt5nJ4IjL3h21.IJQxBQ==",
+    // }),
   ],
   callbacks: {
     async jwt({ token, user, account }) {

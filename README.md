@@ -9,6 +9,10 @@
 - **Redis:** An in-memory data store used as a message broker for Socket.IO, providing efficient pub/sub messaging.
 - **tRPC:** A type-safe procedure call remote procedure call (RPC) protocol, simplifying data fetching and mutations across your frontend and backend.
 - **Cloudflare Workers:** Deploy application on Cloudflare Workers. (NextJs & NextJs APIs Only - This is a stateless deployment express server & services cannot be deployed, Next Middleware are disabled and should be removed.)
+  - Workers
+  - Durable Objects
+  - KV
+  - D1 Database
 
 ## Key Features:
 
