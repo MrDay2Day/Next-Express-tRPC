@@ -27,26 +27,13 @@ export default async function Layout({
   return (
     <>
       <div className="relative">
-        {session?.user ? (
-          <>
-            <SidebarProvider>
-              <AppSidebar />
-              <SidebarTrigger className="sticky top-0" />
-              <div className="px-10 w-full">{children}</div>
-            </SidebarProvider>
-            <Footer />
-          </>
-        ) : (
-          <>
-            <ResponsiveNav />
-            <div>
-              <div className="min-h-screen w-full p-4">
-                <div className="px-10">{children}</div>
-              </div>
-              <Footer />
-            </div>
-          </>
-        )}
+        <ResponsiveNav />
+        <div>
+          <div className="min-h-screen w-full p-4">
+            <div className="px-10">{children}</div>
+          </div>
+          <Footer />
+        </div>
       </div>
       <MobileNavButtons />
     </>

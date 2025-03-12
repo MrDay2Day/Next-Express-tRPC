@@ -13,14 +13,7 @@
     "start": "cross-env NODE_ENV=production next start -p 5438",
     "node:dev": "cross-env  NODE_ENV=development nodemon --watch './server/**/*.ts' --exec 'ts-node' ./server.ts",
     "node:build": "next build --debug && cross-env NODE_ENV=production ts-node ./server.ts",
-    "node:start": "cross-env  NODE_ENV=production ts-node ./server.ts",
-    "worker:build": "opennextjs-cloudflare",
-    "worker:dev": "wrangler dev --port 5438",
-    "worker:preview": "npm run worker:build && npm run worker:dev",
-    "worker:preview_now": "npm run worker:dev",
-    "worker:deploy": "npm run worker:build && wrangler deploy --minify",
-    "worker:deploy_now": "wrangler deploy --minify",
-    "worker:typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+    "node:start": "cross-env  NODE_ENV=production ts-node ./server.ts"
   },
   "dependencies": {
     "@bomdi/codebox": "^2.0.0",
